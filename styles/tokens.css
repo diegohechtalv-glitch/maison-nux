@@ -1,0 +1,21 @@
+:root {
+  /* superficies */
+  --canvas:        #F1EEDD;  /* crema del empaque — fondo dominante */
+  --panel:         #FBFAF5;  /* blanco hueso — tarjetas y bloques */
+  --panel-warm:    #DCAE7A;  /* kraft — fondos de foto de producto */
+  --ink-well:      #2A1D11;  /* café muy oscuro — bandas de contraste */
+
+  /* acento */
+  --accent:        #A07828;  /* dorado Maison — el color del logo */
+  --accent-deep:   #7A5C1E;  /* dorado oscuro — hover y texto sobre crema */
+  --accent-light:  #C9A961;  /* dorado claro — bordes, hairlines, partículas */
+
+  /* texto */
+  --text-primary:  #3A2A18;  /* café nuez */
+  --text-secondary:#5C4A38;  /* café suave */
+  --text-on-dark:  #F1EEDD;  /* crema sobre bandas oscuras */
+
+  /* utilidades */
+  --hairline:      rgba(160,120,40,0.22);
+  --shadow-soft:   0 1px 3px rgba(58,42,24,0.06);
+}

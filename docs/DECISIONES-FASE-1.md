@@ -109,8 +109,12 @@ fases siguientes no las reabran.
   intento). v1 con caramelo líquido cayendo; Juan Fran aprobó tonos y estética
   pero pidió quitar el líquido: **solo caen azúcar y sal**. v2 generado con la
   nuez ya caramelizada, nada cayendo aún, azúcar de caña sobre la piedra.
-- **Concepto del video v2:** banda 2 = cae azúcar de caña, banda 3 = cae sal
-  de mar. El band map de rangos y el copy no cambian.
+- **Concepto del video v2/v3:** banda 2 = cae azúcar de caña, banda 3 = cae
+  sal de mar. El band map de rangos y el copy no cambian. **Dato de producto
+  fijado por Juan Fran: no lleva ningún tipo de caramelo.** La nuez se
+  muestra con costra seca de azúcar y sal (cristales, acabado mate), nunca
+  húmeda ni con brillo de jarabe; v1 (caramelo cayendo) y v2 (nuez glaseada
+  brillante) se descartaron por eso.
 - **Ruta de video aprobada (prudente):** prueba de movimiento en Kling 2.6
   (5 créditos) y, si convence, definitivo en Veo 3.1 (43.5 créditos por
   intento, tope 3). Cotizaciones hechas con get_cost; saldo inicial 1,020.95.

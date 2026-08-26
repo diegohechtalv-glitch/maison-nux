@@ -144,3 +144,13 @@ fases siguientes no las reabran.
   cierre, compresión web), sustitución de la foto fija por el video en el
   héroe ya construido, y el flick test + auditoría de legibilidad sobre el
   metraje real.
+- **Maqueta de recortes verificada por Juan Fran antes de la fase 5** (montaje
+  estático del frame aprobado dentro del héroe real): el espacio limpio
+  sobrevive a los dos recortes, contraste medido por renglón 10.68:1 en
+  escritorio y 10.01:1 en celular, uniforme en las 4 bandas. Parámetros que
+  la fase 5 debe usar al montar el video: `object-position: 90% 50%` en el
+  panel de escritorio y `85% 50%` en el de celular (mantienen la nuez
+  encuadrada); colores de fusión re-sampleados del metraje real, no de la
+  foto de la bolsa: `#f2e0c9` (borde izquierdo) para el fondo/gradiente de
+  escritorio y `#ecd9c0` hacia el borde superior del video en celular (la
+  franja alta del metraje es más oscura, `#9c8067`, y funde como bruma).

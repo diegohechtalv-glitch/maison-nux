@@ -404,6 +404,7 @@ html.hero-degradado .hero-static { display: block; }
   .cards-scroll > * {
     flex: 0 0 78%;
     scroll-snap-align: center;
+    height: auto; /* estira parejo: todas las tarjetas a la altura de la más alta */
   }
 }
 

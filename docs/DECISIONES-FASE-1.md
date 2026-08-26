@@ -36,6 +36,17 @@ fases siguientes no las reabran.
    píxeles reales. La misma regla rige el video de la fase 5, y el frame de
    la fase 2 se compone dejando ese espacio negativo a propósito.
 
+10. **Copy v2 (aprobado por Juan Fran):** bandas 2 y 3 del héroe ("La
+    combinación perfecta entre salado y dulce" / "Un sabor que te revive
+    recuerdos"; el texto ya no describe la imagen, a propósito, y el
+    storyboard del video no cambia); tarjetas de producto en tres partes con
+    nombre propio (El diario, La jornada, La casa, El obsequio); "Tres cosas
+    que no negociamos" reescritas (La receta, El equilibrio, Las manos); FAQ
+    de pedidos grandes: "Sí, contáctanos por WhatsApp para darte más
+    información." Los encabezados usan punto medio `·` como separador, no
+    raya. TEXTOS-PAGINA.md y el design package quedaron sincronizados,
+    incluidos los textos de envío aprobados en rondas anteriores.
+
 ## Reglas de trabajo derivadas (asumidas y no vetadas)
 
 - **Precedencia de copy:** cuando TEXTOS-PAGINA y el design package traigan el

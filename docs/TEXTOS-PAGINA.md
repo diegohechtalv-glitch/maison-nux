@@ -33,7 +33,7 @@
 ### Banda de confianza (debajo del hero, una línea)
 
 > 100% artesanal · Sin conservadores ni sabores artificiales · Hecha en México
-> · Envío gratis en pedidos desde $750
+> · Envío gratis desde $750 en la mayor parte del país
 
 ---
 
@@ -42,12 +42,28 @@
 **Título:** Elige tu bolsa
 **Bajada:** La misma receta en cuatro tamaños. Empieza por donde quieras.
 
-| Bolsa | Precio | Texto de la tarjeta |
-|---|---|---|
-| **40 g** | $50 | Para probarla. O para que no falte en la bolsa del mandado. |
-| **120 g** | $150 | El tamaño de todos los días. |
-| **300 g** | $370 | Para compartir en la mesa. |
-| **600 g** | $720 | Para regalar, o para que dure. |
+Cada tarjeta lleva tres partes: nombre, frase destacada y párrafo. En el catálogo el precio
+se muestra corto ($50); el formato completo queda para el carrito y el checkout.
+
+**40 g · El diario** ($50)
+*Cabe en el bolsillo, no en lo ordinario.*
+La medida exacta para que un martes cualquiera esté bien resuelto. Junta, gimnasio,
+carretera, oficina: donde estés, tu estándar viaja contigo.
+
+**120 g · La jornada** ($150)
+*Alcanza para el día. Y para quien te acompañe.*
+Suficiente para no racionar y para ofrecer sin pensarlo. Porque compartir lo bueno es parte
+del buen gusto.
+
+**300 g · La casa** ($370)
+*La bolsa que siempre está.*
+En la barra de la cocina, junto al café, a la mano cuando llega visita. La reserva de casa
+que dice más de ti que cualquier decoración.
+
+**600 g · El obsequio** ($720)
+*Cuando quieres que se note el detalle.*
+El formato para regalar, para llevarte de viaje, para llegar a una casa sin llegar con las
+manos vacías. Se abre y se entiende de inmediato: esto no fue una compra apurada.
 
 **Nota bajo las tarjetas:**
 > Todas llevan la misma nuez y la misma receta. Cambia el tamaño, no la calidad.
@@ -63,14 +79,17 @@
 **Título:** Tres cosas que no negociamos
 
 **1 · La receta**
-De mi bisabuela francesa. No la cambié: le añadí lo que aprendí en mi cocina mexicana.
+De mi bisabuela francesa. No la cambié: le añadí, apenas, lo que aprendí en mi cocina
+mexicana. Es la única en su tipo, y así seguirá.
 
-**2 · El punto dulce y salado**
-Ni postre ni botana. El caramelo justo, la sal de mar justa. Ese equilibrio es todo el trabajo.
+**2 · El equilibrio**
+No es garapiñada. No es una nuez dulce con sal encima. Es dulce y salado al mismo tiempo, en
+la misma mordida, sin que uno le gane al otro. Ese punto es todo el trabajo.
 
-**3 · Hecha a mano**
-En tandas pequeñas. Sin conservadores, sin sabores artificiales. Solo nuez pecana, azúcar de
-caña, aceite vegetal y sal de mar.
+**3 · Las manos**
+Tandas pequeñas, siempre. Sin conservadores ni sabores artificiales. Cuatro ingredientes:
+nuez pecana, azúcar de caña, aceite vegetal y sal de mar. Nada más, porque nada más hace
+falta.
 
 ---
 
@@ -92,7 +111,8 @@ caña, aceite vegetal y sal de mar.
 
 **Título:** Envíos a todo México
 
-> Envío **gratis** en pedidos desde $750 a todo el país.
+> Envío **gratis** desde $750 en la mayor parte del país. Al poner tu código postal te
+> decimos si el tuyo tiene costo.
 > Si estás en Jalisco o el Occidente, desde $500.
 > Pedido mínimo $150.
 
@@ -239,13 +259,14 @@ tenlo en cuenta.
 La misma nuez y la misma receta. Solo cambia cuánta te llevas.
 
 **¿Cuándo es gratis el envío?**
-Desde $750 a todo el país, y desde $500 si estás en Jalisco o el Occidente.
+Desde $750 en la mayor parte del país, y desde $500 si estás en Jalisco o el Occidente. Al
+poner tu código postal te decimos si el tuyo tiene costo.
 
 **¿Puedo pagar en OXXO o a meses?**
 Sí. El pago es con Mercado Pago: tarjeta, meses sin intereses, OXXO y transferencia.
 
 **¿Hacen pedidos grandes o para empresa?**
-Sí. Escríbenos por WhatsApp a `[[ NÚMERO ]]` y lo vemos.
+Sí, contáctanos por WhatsApp para darte más información.
 
 **¿Puedo recoger en lugar de que me lo envíen?**
 `[[ RESPONDER según tu operación ]]`

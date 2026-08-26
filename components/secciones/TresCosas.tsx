@@ -4,17 +4,17 @@ const cosas = [
   {
     titulo: "La receta",
     texto:
-      "De mi bisabuela francesa. No la cambié: le añadí lo que aprendí en mi cocina mexicana.",
+      "De mi bisabuela francesa. No la cambié: le añadí, apenas, lo que aprendí en mi cocina mexicana. Es la única en su tipo, y así seguirá.",
   },
   {
-    titulo: "El punto dulce y salado",
+    titulo: "El equilibrio",
     texto:
-      "Ni postre ni botana. El caramelo justo, la sal de mar justa. Ese equilibrio es todo el trabajo.",
+      "No es garapiñada. No es una nuez dulce con sal encima. Es dulce y salado al mismo tiempo, en la misma mordida, sin que uno le gane al otro. Ese punto es todo el trabajo.",
   },
   {
-    titulo: "Hecha a mano",
+    titulo: "Las manos",
     texto:
-      "En tandas pequeñas. Sin conservadores, sin sabores artificiales. Solo nuez pecana, azúcar de caña, aceite vegetal y sal de mar.",
+      "Tandas pequeñas, siempre. Sin conservadores ni sabores artificiales. Cuatro ingredientes: nuez pecana, azúcar de caña, aceite vegetal y sal de mar. Nada más, porque nada más hace falta.",
   },
 ];
 

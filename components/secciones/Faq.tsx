@@ -21,7 +21,7 @@ const preguntas = [
   },
   {
     q: "¿Hacen pedidos grandes o para empresa?",
-    a: "Sí. Escríbenos por WhatsApp y lo vemos.",
+    a: "Sí, contáctanos por WhatsApp para darte más información.",
   },
 ];
 

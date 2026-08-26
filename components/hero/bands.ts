@@ -23,14 +23,14 @@ export const bands: Band[] = [
     a: 0.22,
     b: 0.48,
     kind: "rise",
-    titulo: "Azúcar de caña, despacio, hasta que truena",
+    titulo: "La combinación perfecta entre salado y dulce",
   },
   {
     id: "b3",
     a: 0.48,
     b: 0.74,
     kind: "salt",
-    titulo: "Y después, la sal de mar",
+    titulo: "Un sabor que te revive recuerdos",
   },
   {
     id: "b4",

@@ -148,12 +148,16 @@ cálida y lateral, fondo crema fuera de foco. Sin manos, sin personas, sin texto
 | Banda | Scroll | Momento visual | Copia | Entrada |
 |---|---|---|---|---|
 | **1** | 0–22% | Nuez pecana entera, quieta, luz lateral cálida | **Una receta francesa con corazón mexicano** | Fade del titular a los 300 ms; el logo ya está fijo arriba |
-| **2** | 22–48% | El caramelo la cubre, empieza a brillar | *Azúcar de caña, despacio, hasta que truena* | Sube 16 px con fade, línea dorada que se dibuja debajo |
-| **3** | 48–74% | Cae la sal de mar en cámara lenta | *Y después, la sal de mar* | Partículas doradas que descienden y se detienen con el scroll |
+| **2** | 22–48% | El caramelo la cubre, empieza a brillar | *La combinación perfecta entre salado y dulce* | Sube 16 px con fade, línea dorada que se dibuja debajo |
+| **3** | 48–74% | Cae la sal de mar en cámara lenta | *Un sabor que te revive recuerdos* | Partículas doradas que descienden y se detienen con el scroll |
 | **4** | 74–100% | Nuez terminada, brillo pleno, el empuje se detiene | **Nuez pecana Maison Nux** + CTA `Ver presentaciones` | El CTA aparece último, con 400 ms de retraso sobre el titular. Lleva por scroll suave a la sección 6.1 |
 
 **Regla:** ninguna copia compite con el momento visual. Un titular por banda, máximo dos
 líneas. Si al probarlo la palabra estorba a la imagen, gana la imagen.
+
+**Nota (copy v2, aprobado):** los titulares de las bandas 2 y 3 ya no describen la imagen
+(caramelo, sal), y es a propósito. El storyboard del video no cambia: caramelo en la banda 2,
+sal cayendo en la banda 3.
 
 **Regla de composición (fijada en fase 1, rige también con el video):** el titular **nunca**
 va montado sobre el sujeto (la bolsa hoy, la nuez en el video). Vive sobre superficie limpia:
@@ -188,12 +192,11 @@ mitad de la gente.
 **Título:** Elige tu bolsa
 **Bajada:** La misma receta en cuatro tamaños. Empieza por donde quieras.
 
-| Bolsa | Precio | Texto de la tarjeta |
-|---|---|---|
-| 40 g | $50 | Para probarla. O para que no falte en la bolsa del mandado. |
-| 120 g | $150 | El tamaño de todos los días. |
-| 300 g | $370 | Para compartir en la mesa. |
-| 600 g | $720 | Para regalar, o para que dure. |
+Cada tarjeta lleva tres partes (nombre, frase destacada, párrafo) y el precio corto. El
+copy definitivo de las cuatro está en `TEXTOS-PAGINA.md` (sección Las presentaciones):
+**40 g · El diario** ($50), **120 g · La jornada** ($150), **300 g · La casa** ($370) y
+**600 g · El obsequio** ($720). El separador del encabezado es punto medio `·`, consistente
+con la banda de confianza.
 
 **Nota bajo las tarjetas:** Todas llevan la misma nuez y la misma receta. Cambia el tamaño,
 no la calidad.
@@ -208,9 +211,18 @@ aparece un filete `--accent` bajo el precio. En móvil, carrusel con scroll-snap
 
 **Título:** Tres cosas que no negociamos
 
-1. **La receta** — De mi bisabuela francesa. No la cambié: le añadí lo que aprendí en mi cocina mexicana.
-2. **El punto dulce y salado** — Ni postre ni botana. El caramelo justo, la sal justa. Ese equilibrio es todo el trabajo.
-3. **Hecha a mano** — En tandas pequeñas. Sin conservadores, sin sabores artificiales. Solo nuez pecana, azúcar de caña, aceite vegetal y sal de mar.
+**1 · La receta**
+De mi bisabuela francesa. No la cambié: le añadí, apenas, lo que aprendí en mi cocina
+mexicana. Es la única en su tipo, y así seguirá.
+
+**2 · El equilibrio**
+No es garapiñada. No es una nuez dulce con sal encima. Es dulce y salado al mismo tiempo, en
+la misma mordida, sin que uno le gane al otro. Ese punto es todo el trabajo.
+
+**3 · Las manos**
+Tandas pequeñas, siempre. Sin conservadores ni sabores artificiales. Cuatro ingredientes:
+nuez pecana, azúcar de caña, aceite vegetal y sal de mar. Nada más, porque nada más hace
+falta.
 
 Separador: `ornamento-nuez.png` centrado, al 55% de opacidad.
 
@@ -253,7 +265,8 @@ CONSERVACIÓN     Mantén el empaque cerrado. Después de abrirlo,
 
 **Título:** Envíos a todo México
 
-> Envío **gratis** en pedidos desde $750 a todo el país.
+> Envío **gratis** desde $750 en la mayor parte del país. Al poner tu código postal te
+> decimos si el tuyo tiene costo.
 > Si estás en Jalisco o el Occidente, desde $500.
 > Pedido mínimo $150.
 
@@ -264,8 +277,8 @@ Acordeón, cerrado por defecto. Solo estas cinco — no inventar más.
 - **¿Por qué hay que refrigerarla después de abrir?** Porque no lleva conservadores. Es la misma razón por la que sabe como sabe.
 - **¿Contiene alérgenos?** Sí. Es nuez pecana, y puede contener trazas de otros frutos secos. Si hay alergia en casa, tenlo en cuenta.
 - **¿Es la misma receta en todos los tamaños?** La misma nuez y la misma receta. Solo cambia cuánta te llevas.
-- **¿Cuándo es gratis el envío?** Desde $750 a todo el país, y desde $500 si estás en Jalisco o el Occidente.
-- **¿Hacen pedidos grandes o para empresa?** Sí. Escríbenos por WhatsApp y lo vemos.
+- **¿Cuándo es gratis el envío?** Desde $750 en la mayor parte del país, y desde $500 si estás en Jalisco o el Occidente. Al poner tu código postal te decimos si el tuyo tiene costo.
+- **¿Hacen pedidos grandes o para empresa?** Sí, contáctanos por WhatsApp para darte más información.
 
 ### 6.7 · Testimonios
 

@@ -118,3 +118,29 @@ fases siguientes no las reabran.
 - **Ruta de video aprobada (prudente):** prueba de movimiento en Kling 2.6
   (5 créditos) y, si convence, definitivo en Veo 3.1 (43.5 créditos por
   intento, tope 3). Cotizaciones hechas con get_cost; saldo inicial 1,020.95.
+
+## Resultado final de la generación (fase 2 extendida, aprobado)
+
+- **Frame aprobado: v4** (Nano Banana Pro): mitad de pecana pelada, surcos
+  visibles, costra seca de azúcar y sal, nada cayendo, sujeto abajo-derecha
+  con aire limpio arriba e izquierda. Guardado en
+  `docs/media/heroe-frame-aprobado.png` (job f72e414f). v1 (caramelo líquido),
+  v2 (nuez glaseada) y v3 (nuez con cáscara) descartados.
+- **4 pruebas de movimiento en Kling 2.6** (5 créditos c/u; la 4a con permiso
+  expreso de Juan Fran para superar el tope de 3). La prueba 4 fijó el
+  movimiento aprobado: sal tan visible como el azúcar, granos finos, colores
+  diferenciados, esparcido amplio en la piedra, cresta ligera.
+- **Intento en Veo 3.1 (43.5, fallido):** mismo prompt de la prueba 4, pero
+  acumuló demasiada azúcar sobre la nuez y salió a 720p. Descartado.
+- **VIDEO APROBADO: MiniMax H3** (24 créditos) con el frame v4 como referencia
+  de imagen y la prueba 4 como referencia de movimiento. 2560×1440 (2K),
+  6.58 s, cierre en reposo real. Master guardado en
+  `docs/media/heroe-master-2k.mp4` (job 71076a82). Trae pista de audio que se
+  eliminará en el procesado de la fase 5, donde también se recorta/afina el
+  final y se aplican las recetas de ffmpeg de la skill.
+- **Créditos de toda la generación: 95.5** (8 en frames + 20 en pruebas +
+  43.5 Veo fallido + 24 MiniMax). Saldo aproximado tras la fase: 925.45.
+- **Pendiente para la fase 5:** procesado ffmpeg (sin audio, recorte del
+  cierre, compresión web), sustitución de la foto fija por el video en el
+  héroe ya construido, y el flick test + auditoría de legibilidad sobre el
+  metraje real.

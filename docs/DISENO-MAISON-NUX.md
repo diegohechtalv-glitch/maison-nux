@@ -159,8 +159,9 @@ líneas. Si al probarlo la palabra estorba a la imagen, gana la imagen.
 
 ## 5 · The static-hero copy block
 
-Versión sin video: móvil, conexión lenta y `prefers-reduced-motion`. Sobre `--canvas` con la
-foto `bolsa-120g.jpg`.
+Versión sin video, como **respaldo automático** (decisión de Juan Fran en la fase 1: el héroe
+animado corre también en celular). Se muestra solo con `prefers-reduced-motion`, con conexión
+lenta o si el dispositivo no da el ancho. Sobre `--canvas` con la foto `bolsa-120g.jpg`.
 
 > **Titular:** Una receta francesa con corazón mexicano
 >
@@ -313,8 +314,9 @@ Se siguen íntegros los estándares de `references/scrub-pipeline.md`. Los no ne
 - **Interpolación con lerp** en el scrub, para que el video no se sienta a saltos.
 - La legibilidad manda: si un titular no se lee sobre el video, se le pone un velo
   `--ink-well` al 40%, no se cambia el color del texto.
-- El hero estático se decide **antes** de descargar el video: móvil, `reduced-motion` o
-  conexión lenta nunca bajan el archivo.
+- El héroe animado corre **también en celular** (ahí está más de la mitad del tráfico).
+  El hero estático es respaldo y se decide **antes** de descargar el video: `reduced-motion`,
+  conexión lenta o un dispositivo que no da el ancho nunca bajan el archivo.
 - Todas las imágenes con `width`/`height` explícitos para que no brinque el layout.
 - Fuentes con `font-display: swap` y solo los pesos listados.
 - La página completa debe pintar el primer contenido en menos de 2.5 s en 4G.
@@ -336,7 +338,7 @@ app/
   admin/                    protegido con contraseña
 components/
   hero/HeroScrub.tsx        'use client' — el scrub, autocontenido
-  hero/HeroStatic.tsx       versión sin video (móvil, reduced-motion, red lenta)
+  hero/HeroStatic.tsx       respaldo sin video (reduced-motion, red lenta, equipo corto)
   hero/bands.ts             el band map como datos, no como JSX suelto
   secciones/…               una sección = un componente
 lib/

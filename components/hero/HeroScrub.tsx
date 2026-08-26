@@ -5,15 +5,25 @@ import { useEffect, useRef } from "react";
 import { bands, SALT_PARTICLES } from "./bands";
 import fotoHero from "@/public/img/bolsa-120g.jpg";
 
-// Las cinco condiciones del hero estático, idénticas carácter por carácter
-// a las media queries de globals.css. Si una cambia, cambian las dos.
-const GATES = [
-  "(max-width: 720px)",
-  "(orientation: portrait) and (max-width: 1024px)",
-  "(orientation: portrait) and (pointer: coarse)",
-  "(orientation: landscape) and (pointer: coarse) and (max-height: 560px)",
-  "(prefers-reduced-motion: reduce)",
-];
+// El héroe animado corre también en celular (decisión de Juan Fran,
+// fase 1). El estático es respaldo, con dos vías:
+// 1. reduced motion: media query idéntica carácter por carácter a la de
+//    globals.css, evaluada en vivo en CSS y JS.
+// 2. conexión lenta o equipo corto: solo se puede saber desde JS, así que
+//    el JS pone la clase hero-degradado en <html> y el CSS la obedece.
+const GATES = ["(prefers-reduced-motion: reduce)"];
+
+function equipoCorto(): boolean {
+  const nav = navigator as Navigator & {
+    connection?: { saveData?: boolean; effectiveType?: string };
+    deviceMemory?: number;
+  };
+  const con = nav.connection;
+  if (con?.saveData) return true;
+  if (con?.effectiveType && /(^|-)2g$/.test(con.effectiveType)) return true;
+  if (nav.deviceMemory !== undefined && nav.deviceMemory <= 2) return true;
+  return false;
+}
 
 const smoothstep = (p: number, e0: number, e1: number) => {
   const t = Math.min(1, Math.max(0, (p - e0) / (e1 - e0)));
@@ -105,6 +115,9 @@ export default function HeroScrub() {
       loadRaf = loadK < 1 ? requestAnimationFrame(runLoadRamp) : null;
     };
 
+    const degradado = equipoCorto();
+    document.documentElement.classList.toggle("hero-degradado", degradado);
+
     const mqls = GATES.map((q) => matchMedia(q));
     const enable = () => {
       if (armed) return;
@@ -130,7 +143,7 @@ export default function HeroScrub() {
       }
     };
     const applyMode = () => {
-      if (mqls.some((m) => m.matches)) disable();
+      if (degradado || mqls.some((m) => m.matches)) disable();
       else enable();
     };
     mqls.forEach((m) => m.addEventListener("change", applyMode));

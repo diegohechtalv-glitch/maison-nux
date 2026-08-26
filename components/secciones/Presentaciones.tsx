@@ -1,7 +1,7 @@
 import Image from "next/image";
 import TituloSeccion from "@/components/ui/TituloSeccion";
 import { productos } from "@/lib/productos";
-import { formatoMXN } from "@/lib/formato";
+import { formatoPrecioCorto } from "@/lib/formato";
 import bolsa40 from "@/public/img/bolsa-40g.jpg";
 import bolsa120 from "@/public/img/bolsa-120g.jpg";
 import bolsa300 from "@/public/img/bolsa-300g.jpg";
@@ -39,7 +39,7 @@ export default function Presentaciones() {
                 Cont. net. {p.gramos} g
               </p>
               <p className="mt-1 font-mono text-lg text-text-primary">
-                {formatoMXN(p.precioCentavos)}
+                {formatoPrecioCorto(p.precioCentavos)}
                 <span className="filete-precio" aria-hidden="true" />
               </p>
               <p className="mt-3 text-[0.95rem] leading-relaxed text-text-secondary">

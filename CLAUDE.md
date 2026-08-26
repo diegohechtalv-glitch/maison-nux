@@ -76,7 +76,7 @@ antes de seguir. **No adelantes fases.**
 | 2 | **Frame inicial** (~2 créditos) | Storyboard aprobado + generación de la imagen de arranque del video | Juan Fran ve la imagen y aprueba la dirección visual |
 | 3 | **Carrito y envíos** | Schema de Prisma, seed, carrito, cálculo por zona, barra de envío gratis | Armas un carrito, eliges estado, y el total sale correcto |
 | 4 | **Pagos en prueba** | Checkout Pro con credenciales `TEST-`, webhook, correos | Compra con tarjeta de prueba genera pedido `pagado` y llegan los correos |
-| 5 | **Video y héroe animado** (~54 créditos) | Generación del video, procesado con ffmpeg, scrub ligado al scroll, sustitución del héroe estático | El héroe se anima con el scroll y la página sigue rápida |
+| 5 | **Video y héroe animado** (~54 créditos) | Generación del video, procesado con ffmpeg, scrub ligado al scroll en escritorio **y celular**, sustitución de la foto fija | El héroe se anima con el scroll en escritorio y celular, y la página sigue rápida |
 | 6 | **Panel de pedidos** | `/admin` protegido: lista, detalle, cambio de estado, editar zonas y costos | Marcas un pedido como enviado y el cliente recibe aviso |
 | 7 | **Dominio y producción** | Dominio en Netlify, credenciales `APP_USR-`, SEO, Open Graph, sitemap | Compra real de bajo monto llega a Mercado Pago |
 
@@ -87,6 +87,10 @@ video se atrasa o no queda a la primera, la tienda ya está vendiendo.
 **La sección de héroe se construye completa desde la fase 1**, con las 4 bandas y sus
 transiciones ya funcionando sobre una foto fija. En la fase 5 solo se sustituye la fuente
 visual. **No rediseñes el héroe en la fase 5.**
+
+**El héroe animado corre también en celular** (decisión de Juan Fran, fase 1). El héroe
+estático NO es la regla del móvil: es respaldo automático, solo para `prefers-reduced-motion`,
+conexión lenta o un dispositivo que no da el ancho.
 
 ## Manejo de créditos de Higgsfield — obligatorio
 

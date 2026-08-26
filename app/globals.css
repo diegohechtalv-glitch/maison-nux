@@ -158,18 +158,20 @@ h1, h2, h3 {
 }
 
 /* ---------- héroe: gate estático ---------- */
-/* Las cinco condiciones, idénticas carácter por carácter en HeroScrub.tsx */
+/* El héroe animado corre también en celular. El estático es RESPALDO:
+   reduced motion (media query, idéntica carácter por carácter en
+   HeroScrub.tsx) y conexión lenta o equipo corto (clase hero-degradado,
+   que solo puede poner el JS). */
 
 .hero-static { display: none; }
 
-@media (max-width: 720px),
-       (orientation: portrait) and (max-width: 1024px),
-       (orientation: portrait) and (pointer: coarse),
-       (orientation: landscape) and (pointer: coarse) and (max-height: 560px),
-       (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
   .hero-scrub { display: none; }
   .hero-static { display: block; }
 }
+
+html.hero-degradado .hero-scrub { display: none; }
+html.hero-degradado .hero-static { display: block; }
 
 /* ---------- héroe animado ---------- */
 
@@ -182,6 +184,7 @@ h1, h2, h3 {
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100svh;
   overflow: hidden;
 }
 
@@ -198,7 +201,7 @@ h1, h2, h3 {
   top: 50%;
   transform: translateY(-50%);
   opacity: 0;
-  max-width: min(30rem, 34vw);
+  max-width: min(34rem, 40vw);
   will-change: opacity;
 }
 .lane-left  { left: clamp(2rem, 6vw, 8rem); }
@@ -206,7 +209,7 @@ h1, h2, h3 {
 .lane-right {
   right: clamp(1.5rem, 4.5vw, 6rem);
   top: 58%;
-  max-width: min(26rem, 30vw);
+  max-width: min(30rem, 36vw);
   text-align: right;
 }
 .lane-right .band-filete { margin-left: auto; transform-origin: right center; }
@@ -216,21 +219,20 @@ h1, h2, h3 {
 .band::before {
   content: "";
   position: absolute;
-  inset: -18% -14%;
+  inset: -70% -55%;
   z-index: -1;
   pointer-events: none;
-  border-radius: 50%;
   background: radial-gradient(ellipse 100% 100% at 50% 50%,
-              rgba(251, 250, 245, 0.9) 0%,
-              rgba(251, 250, 245, 0.55) 52%,
-              rgba(251, 250, 245, 0) 76%);
-  opacity: calc(0.35 + 0.65 * var(--k, 1));
+              rgba(251, 250, 245, 0.5) 0%,
+              rgba(251, 250, 245, 0.26) 42%,
+              rgba(251, 250, 245, 0) 70%);
+  opacity: calc(0.4 + 0.6 * var(--k, 1));
 }
 
 .band-titulo {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(1.9rem, 3vw, 3rem);
+  font-size: clamp(2.4rem, 5.5vw, 5rem);
   line-height: 1.12;
   color: var(--text-primary);
   text-wrap: balance;
@@ -238,6 +240,16 @@ h1, h2, h3 {
 
 /* banda 1: fade (la rampa única de carga la escribe el JS en --k) */
 .band-fade .band-titulo { opacity: var(--k, 0); }
+
+/* banda 2: su texto cruza el pliegue sombreado de la bolsa; su velo es más
+   firme pero igual de amplio, para aclarar sin verse como mancha */
+.band-rise::before {
+  inset: -90% -75%;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%,
+              rgba(251, 250, 245, 0.62) 0%,
+              rgba(251, 250, 245, 0.38) 45%,
+              rgba(251, 250, 245, 0) 72%);
+}
 
 /* banda 2: sube 16 px con fade + línea dorada que se dibuja */
 .band-rise .band-titulo {
@@ -283,6 +295,29 @@ h1, h2, h3 {
   margin-top: 1.4rem;
   opacity: var(--kb);
   transform: translateY(calc((1 - var(--kb)) * 12px));
+}
+
+/* héroe animado en celular: bandas centradas sobre un velo crema más firme,
+   medido para que el café nuez pase 4.5:1 también sobre las nueces */
+@media (max-width: 720px) {
+  .hero-veil {
+    background: rgba(241, 238, 221, 0.5);
+  }
+  .band,
+  .lane-left,
+  .lane-right {
+    left: 1.25rem;
+    right: 1.25rem;
+    top: 54%;
+    max-width: none;
+    text-align: center;
+  }
+  .lane-right .band-filete,
+  .band-filete {
+    margin-left: auto;
+    margin-right: auto;
+    transform-origin: center;
+  }
 }
 
 /* pantallas con scrub pero poco alto: fuera adornos pequeños */

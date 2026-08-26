@@ -17,6 +17,17 @@ fases siguientes no las reabran.
    sustituye a "a todo el país":
    > Envío gratis desde $750 en la mayor parte del país. Al poner tu código
    > postal te decimos si el tuyo tiene costo.
+5. **El héroe animado corre también en celular** (ajuste posterior de Juan
+   Fran: más de la mitad del tráfico es móvil). El héroe estático pasa a ser
+   respaldo automático: `prefers-reduced-motion`, conexión lenta o equipo
+   corto. CLAUDE.md y el design package quedaron actualizados.
+6. **Banda de confianza:** "Envío gratis desde $750 en la mayor parte del
+   país" (mismo matiz que el punto 4).
+7. **Precio en el catálogo:** corto, "$50". El formato completo
+   "$50.00 MXN" queda para el carrito y el checkout.
+8. **Titulares del héroe:** `clamp(2.4rem, 5.5vw, 5rem)`; el halo tras el
+   texto se agrandó y bajó de opacidad hasta ser imperceptible, y el
+   contraste se volvió a medir sobre píxeles reales tras el cambio.
 
 ## Reglas de trabajo derivadas (asumidas y no vetadas)
 

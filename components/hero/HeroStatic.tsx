@@ -1,7 +1,7 @@
 import Image from "next/image";
 import fotoHero from "@/public/img/bolsa-120g.jpg";
 
-// Versión sin recorrido: celular, tablets en vertical y reduced motion.
+// Respaldo sin recorrido: reduced motion, conexión lenta o equipo corto.
 // Tiene que verse terminada, no como el plan B.
 export default function HeroStatic() {
   return (

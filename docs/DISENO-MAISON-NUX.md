@@ -141,14 +141,16 @@ Las tres de Google Fonts. Cargar solo esos pesos.
 
 Video de héroe de ~6 segundos, controlado por scroll. Cuatro bandas.
 
-**Concepto del video:** macro de una nuez pecana. El caramelo la va cubriendo, brilla, y al
-final cae sal de mar en cámara lenta. Cámara con un empuje muy lento hacia adelante. Luz
-cálida y lateral, fondo crema fuera de foco. Sin manos, sin personas, sin texto en el video.
+**Concepto del video (v2, decidido por Juan Fran en la fase 2):** macro de una nuez pecana
+**ya caramelizada**, con brillo. Sobre ella caen en cámara lenta **azúcar de caña** (banda 2)
+y después **sal de mar** (banda 3): los dos ingredientes de la marca. **Nada de caramelo
+líquido vertiéndose.** Cámara con un empuje muy lento hacia adelante. Luz cálida y lateral,
+fondo crema fuera de foco. Sin manos, sin personas, sin texto en el video.
 
 | Banda | Scroll | Momento visual | Copia | Entrada |
 |---|---|---|---|---|
-| **1** | 0–22% | Nuez pecana entera, quieta, luz lateral cálida | **Una receta francesa con corazón mexicano** | Fade del titular a los 300 ms; el logo ya está fijo arriba |
-| **2** | 22–48% | El caramelo la cubre, empieza a brillar | *La combinación perfecta entre salado y dulce* | Sube 16 px con fade, línea dorada que se dibuja debajo |
+| **1** | 0–22% | Nuez pecana caramelizada, quieta, luz lateral cálida | **Una receta francesa con corazón mexicano** | Fade del titular a los 300 ms; el logo ya está fijo arriba |
+| **2** | 22–48% | Cae el azúcar de caña en cámara lenta, brillo creciente | *La combinación perfecta entre salado y dulce* | Sube 16 px con fade, línea dorada que se dibuja debajo |
 | **3** | 48–74% | Cae la sal de mar en cámara lenta | *Un sabor que te revive recuerdos* | Partículas doradas que descienden y se detienen con el scroll |
 | **4** | 74–100% | Nuez terminada, brillo pleno, el empuje se detiene | **Nuez pecana Maison Nux** + CTA `Ver presentaciones` | El CTA aparece último, con 400 ms de retraso sobre el titular. Lleva por scroll suave a la sección 6.1 |
 

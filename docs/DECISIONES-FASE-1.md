@@ -96,8 +96,21 @@ fases siguientes no las reabran.
   anywhere".
 - Componer el frame final con margen generoso arriba y abajo, y verificarlo
   con el header montado encima en ventana ancha y corta.
-- El caramelo se describe como vertido descendente con trayectoria explícita,
-  nunca como materialización.
+- (Sustituida en fase 2) El vertido de caramelo salió del concepto: sobre la
+  nuez ya caramelizada caen azúcar de caña y sal de mar, partículas que son
+  sujetos aún más nobles de generar que un líquido.
 - Los porcentajes 22/48/74 del band map son provisionales: se reajustan al
   metraje real en la fase 5 editando `components/hero/bands.ts` (reajustar
   porcentajes no es rediseñar el héroe).
+
+## Decisiones de la Fase 2 (en curso)
+
+- **Frame inicial:** aprobada la generación (Nano Banana Pro, 2 créditos por
+  intento). v1 con caramelo líquido cayendo; Juan Fran aprobó tonos y estética
+  pero pidió quitar el líquido: **solo caen azúcar y sal**. v2 generado con la
+  nuez ya caramelizada, nada cayendo aún, azúcar de caña sobre la piedra.
+- **Concepto del video v2:** banda 2 = cae azúcar de caña, banda 3 = cae sal
+  de mar. El band map de rangos y el copy no cambian.
+- **Ruta de video aprobada (prudente):** prueba de movimiento en Kling 2.6
+  (5 créditos) y, si convence, definitivo en Veo 3.1 (43.5 créditos por
+  intento, tope 3). Cotizaciones hechas con get_cost; saldo inicial 1,020.95.

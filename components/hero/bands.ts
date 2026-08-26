@@ -6,7 +6,6 @@ export type Band = {
   id: string;
   a: number; // inicio del rango
   b: number; // fin del rango
-  lane: "left" | "right";
   kind: "fade" | "rise" | "salt" | "settle";
   titulo: string;
 };
@@ -16,7 +15,6 @@ export const bands: Band[] = [
     id: "b1",
     a: 0,
     b: 0.22,
-    lane: "left",
     kind: "fade",
     titulo: "Una receta francesa con corazón mexicano",
   },
@@ -24,7 +22,6 @@ export const bands: Band[] = [
     id: "b2",
     a: 0.22,
     b: 0.48,
-    lane: "right",
     kind: "rise",
     titulo: "Azúcar de caña, despacio, hasta que truena",
   },
@@ -32,7 +29,6 @@ export const bands: Band[] = [
     id: "b3",
     a: 0.48,
     b: 0.74,
-    lane: "left",
     kind: "salt",
     titulo: "Y después, la sal de mar",
   },
@@ -40,7 +36,6 @@ export const bands: Band[] = [
     id: "b4",
     a: 0.74,
     b: 1,
-    lane: "right",
     kind: "settle",
     titulo: "Nuez pecana Maison Nux",
   },

@@ -174,6 +174,12 @@ html.hero-degradado .hero-scrub { display: none; }
 html.hero-degradado .hero-static { display: block; }
 
 /* ---------- héroe animado ---------- */
+/* Regla de composición: el titular NUNCA se monta sobre la bolsa (el
+   packshot trae su propio logo y tipografía). La bolsa vive anclada a la
+   derecha y el texto en el kraft limpio de la izquierda; los anchos están
+   elegidos para que jamás se toquen (texto <= 35vw, foto desde 38vw).
+   En celular el encuadre es vertical: texto arriba, bolsa abajo.
+   Lo mismo regirá con el video en la fase 5. */
 
 .hero-scrub {
   height: 500vh;
@@ -186,47 +192,38 @@ html.hero-degradado .hero-static { display: block; }
   height: 100vh;
   height: 100svh;
   overflow: hidden;
+  /* kraft plano sampleado del borde izquierdo real de la foto */
+  background: #dcb283;
 }
 
-.hero-veil {
+.hero-foto-wrap {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 62%;
+}
+/* funde el borde de la foto con el kraft plano del fondo, sin costura */
+.hero-foto-wrap::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 42%;
+  z-index: 1;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(241, 238, 221, 0.42) 0%, rgba(241, 238, 221, 0) 18%),
-              rgba(241, 238, 221, 0.08);
+  background: linear-gradient(90deg, #dcb283 0%, rgba(220, 178, 131, 0) 100%);
 }
 
 .band {
   position: absolute;
+  left: clamp(1.5rem, 5vw, 7rem);
   top: 50%;
   transform: translateY(-50%);
   opacity: 0;
-  max-width: min(34rem, 40vw);
+  max-width: min(30rem, 30vw);
   will-change: opacity;
-}
-.lane-left  { left: clamp(2rem, 6vw, 8rem); }
-/* el carril derecho baja al blanco liso de la bolsa para no tapar el empaque */
-.lane-right {
-  right: clamp(1.5rem, 4.5vw, 6rem);
-  top: 58%;
-  max-width: min(30rem, 36vw);
-  text-align: right;
-}
-.lane-right .band-filete { margin-left: auto; transform-origin: right center; }
-.lane-right .band-cta { margin-left: auto; }
-
-/* halo crema tras el texto: texto oscuro sobre foto clara, el velo aclara, no oscurece */
-.band::before {
-  content: "";
-  position: absolute;
-  inset: -70% -55%;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(ellipse 100% 100% at 50% 50%,
-              rgba(251, 250, 245, 0.5) 0%,
-              rgba(251, 250, 245, 0.26) 42%,
-              rgba(251, 250, 245, 0) 70%);
-  opacity: calc(0.4 + 0.6 * var(--k, 1));
 }
 
 .band-titulo {
@@ -240,16 +237,6 @@ html.hero-degradado .hero-static { display: block; }
 
 /* banda 1: fade (la rampa única de carga la escribe el JS en --k) */
 .band-fade .band-titulo { opacity: var(--k, 0); }
-
-/* banda 2: su texto cruza el pliegue sombreado de la bolsa; su velo es más
-   firme pero igual de amplio, para aclarar sin verse como mancha */
-.band-rise::before {
-  inset: -90% -75%;
-  background: radial-gradient(ellipse 100% 100% at 50% 50%,
-              rgba(251, 250, 245, 0.62) 0%,
-              rgba(251, 250, 245, 0.38) 45%,
-              rgba(251, 250, 245, 0) 72%);
-}
 
 /* banda 2: sube 16 px con fade + línea dorada que se dibuja */
 .band-rise .band-titulo {
@@ -292,31 +279,59 @@ html.hero-degradado .hero-static { display: block; }
 }
 .band-cta {
   --kb: clamp(0, calc((var(--k, 0) - 0.55) * 3.2), 1);
-  margin-top: 1.4rem;
+  margin-top: 1.6rem;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.05rem 2.4rem;
+  font-size: 1rem;
   opacity: var(--kb);
   transform: translateY(calc((1 - var(--kb)) * 12px));
 }
 
-/* héroe animado en celular: bandas centradas sobre un velo crema más firme,
-   medido para que el café nuez pase 4.5:1 también sobre las nueces */
+/* héroe animado en celular: encuadre vertical, texto arriba sobre kraft
+   limpio y la bolsa abajo; nunca se superponen */
 @media (max-width: 720px) {
-  .hero-veil {
-    background: rgba(241, 238, 221, 0.5);
+  .hero-stage {
+    /* kraft plano sampleado del borde superior real de la foto */
+    background: #e3b98b;
   }
-  .band,
-  .lane-left,
-  .lane-right {
+  .hero-foto-wrap {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 58%;
+  }
+  .hero-foto-wrap::before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: 100%;
+    height: 34%;
+    background: linear-gradient(180deg, #e3b98b 0%, rgba(227, 185, 139, 0) 100%);
+  }
+  .hero-foto-wrap img {
+    object-position: 50% 16%;
+  }
+  .band {
     left: 1.25rem;
     right: 1.25rem;
-    top: 54%;
+    top: 23%;
     max-width: none;
     text-align: center;
   }
-  .lane-right .band-filete,
   .band-filete {
     margin-left: auto;
     margin-right: auto;
     transform-origin: center;
+  }
+  .salt {
+    top: -9vh;
+    height: 26vh;
   }
 }
 

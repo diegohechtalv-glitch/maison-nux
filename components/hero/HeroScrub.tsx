@@ -160,22 +160,22 @@ export default function HeroScrub() {
   return (
     <section ref={rootRef} className="hero-scrub" aria-label="Maison Nux">
       <div className="hero-stage">
-        <Image
-          src={fotoHero}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-          placeholder="blur"
-          aria-hidden="true"
-        />
-        <div className="hero-veil" aria-hidden="true" />
+        <div className="hero-foto-wrap" aria-hidden="true">
+          <Image
+            src={fotoHero}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 720px) 100vw, 62vw"
+            className="object-cover"
+            placeholder="blur"
+          />
+        </div>
         {bands.map((b, i) => (
           <div
             key={b.id}
             data-band={b.id}
-            className={`band band-${b.kind} lane-${b.lane}`}
+            className={`band band-${b.kind}`}
           >
             {b.kind === "salt" && (
               <div className="salt" aria-hidden="true">

@@ -155,6 +155,13 @@ cálida y lateral, fondo crema fuera de foco. Sin manos, sin personas, sin texto
 **Regla:** ninguna copia compite con el momento visual. Un titular por banda, máximo dos
 líneas. Si al probarlo la palabra estorba a la imagen, gana la imagen.
 
+**Regla de composición (fijada en fase 1, rige también con el video):** el titular **nunca**
+va montado sobre el sujeto (la bolsa hoy, la nuez en el video). Vive sobre superficie limpia:
+el kraft o el fondo crema fuera de foco. En escritorio, sujeto anclado a un costado y texto
+en el carril opuesto, con separación garantizada; en celular, encuadre vertical (texto arriba,
+sujeto abajo). **El frame de la fase 2 se compone dejando ese espacio libre a propósito**:
+espacio negativo generoso donde vivirán los titulares y el CTA.
+
 ---
 
 ## 5 · The static-hero copy block

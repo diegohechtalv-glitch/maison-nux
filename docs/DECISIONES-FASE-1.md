@@ -25,9 +25,16 @@ fases siguientes no las reabran.
    país" (mismo matiz que el punto 4).
 7. **Precio en el catálogo:** corto, "$50". El formato completo
    "$50.00 MXN" queda para el carrito y el checkout.
-8. **Titulares del héroe:** `clamp(2.4rem, 5.5vw, 5rem)`; el halo tras el
-   texto se agrandó y bajó de opacidad hasta ser imperceptible, y el
-   contraste se volvió a medir sobre píxeles reales tras el cambio.
+8. **Titulares del héroe:** `clamp(2.4rem, 5.5vw, 5rem)`.
+9. **El titular nunca se monta sobre el sujeto** (ajuste posterior de Juan
+   Fran): el packshot trae su propio logo y tipografía, así que el texto no
+   compite con él. Escritorio: bolsa anclada a la derecha (foto en un panel
+   al 62% con el borde fundido al kraft plano sampleado de la propia foto),
+   texto en el kraft limpio de la izquierda, anchos elegidos para que jamás
+   se toquen. Celular: encuadre vertical, texto arriba y bolsa abajo. Sin
+   velos ni halos: la legibilidad se resuelve con colocación, medida sobre
+   píxeles reales. La misma regla rige el video de la fase 5, y el frame de
+   la fase 2 se compone dejando ese espacio negativo a propósito.
 
 ## Reglas de trabajo derivadas (asumidas y no vetadas)
 

@@ -154,3 +154,36 @@ fases siguientes no las reabran.
   foto de la bolsa: `#f2e0c9` (borde izquierdo) para el fondo/gradiente de
   escritorio y `#ecd9c0` hacia el borde superior del video en celular (la
   franja alta del metraje es más oscura, `#9c8067`, y funde como bruma).
+
+## Concepto 2 del video del héroe (aprobado, sustituye al corto como master)
+
+- **Concepto de Juan Fran:** un solo travelling continuo que arranca igual que
+  el video aprobado (macro + azúcar y sal) y retrocede revelando la bolsa de
+  Maison Nux con nueces cayendo dentro. Bandas: 1 macro quieta, 2 caída,
+  3 apertura de cámara, 4 revelado de bolsa + CTA.
+- **Intento 1 (Seedance 2.5 plano completo, 72 créditos): FALLIDO.** Metió un
+  fundido encadenado con nueces fantasma y la bolsa final salió cerrada, casi
+  al centro y sin el mundo del arranque. 1080p limpio y buena primera mitad,
+  pero rompió la continuidad.
+- **Intento 2 (Seedance 2.5 en modo extensión de video, 54 créditos):
+  APROBADO.** Extiende hacia adelante el video aprobado de MiniMax desde su
+  último cuadro exacto, con la foto real del empaque
+  (`public/img/bolsa-120g.jpg`) como referencia de imagen. Continuidad real
+  sin fundidos, bolsa abierta con nueces cayendo dentro, abajo a la derecha,
+  luz intacta.
+- **Desviación aceptada por Juan Fran:** la etiqueta salió enfocada y legible
+  (el prompt pedía desenfoque), pero se reprodujo fiel letra por letra
+  ("MAISON NUX", "100% ARTESANAL", ornamento) gracias a la referencia; se
+  aprobó así. La bolsa cruza el borde superior derecho en parte del tramo
+  (permitido: "cortada por el borde"); en celular la bruma del blend la
+  suaviza.
+- **Masters en docs/media/:** `heroe-master-completo.mp4` (12.58 s, 1080p,
+  el nuevo master del héroe: aprobado 6.58 s + extensión 6 s, unidos con una
+  sola codificación), `heroe-extension-seedance.mp4` (el crudo de la
+  extensión) y `heroe-master-2k.mp4` (el corto aprobado, se conserva).
+- **Créditos:** concepto 2 costó 126 (72 fallido + 54). Total del proyecto:
+  221.5. Saldo aproximado: 799.45.
+- **Notas fase 5:** rehacer la unión desde los crudos con la receta de scrub
+  de ffmpeg-recipes.md (keyframes cortos, sin audio, compresión web); subir el
+  recorrido del héroe a ~700vh para que la apertura respire (es un número,
+  no un rediseño); el band map de rangos sigue igual y el flick test manda.

@@ -12,6 +12,7 @@ build/
 # variables de entorno — nunca se commitean llaves
 .env
 .env.local
+.env.production
 .env*.local
 
 # netlify

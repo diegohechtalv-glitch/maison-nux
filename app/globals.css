@@ -442,3 +442,55 @@ html.hero-degradado .hero-static { display: block; }
     transition-delay: 0s !important;
   }
 }
+
+/* ---------- carrito ---------- */
+
+.barra-envio {
+  margin-top: 2rem;
+  border: 1px solid var(--hairline);
+  background: var(--panel);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.barra-pista {
+  margin-top: 0.7rem;
+  height: 6px;
+  background: var(--hairline);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barra-relleno {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.btn-cantidad {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  line-height: 1;
+  transition: background-color 0.2s ease;
+}
+.btn-cantidad:hover {
+  background: var(--canvas);
+}
+
+.campo {
+  width: 100%;
+  border: 1px solid var(--hairline);
+  background: var(--panel);
+  padding: 0.7rem 0.9rem;
+  border-radius: 2px;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+}
+.campo:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}

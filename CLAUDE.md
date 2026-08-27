@@ -80,6 +80,16 @@ antes de seguir. **No adelantes fases.**
 | 6 | **Panel de pedidos** | `/admin` protegido: lista, detalle, cambio de estado, editar zonas y costos | Marcas un pedido como enviado y el cliente recibe aviso |
 | 7 | **Dominio y producción** | Dominio en Netlify, credenciales `APP_USR-`, SEO, Open Graph, sitemap | Compra real de bajo monto llega a Mercado Pago |
 
+**Candados obligatorios de la fase 7 (no se sale a producción sin esto):**
+
+- [ ] **Confirmar costos y zonas de envío definitivos.** Los números de la fase 3
+      ($90/$120, umbrales $500/$750, mínimo $150, estados por zona, CPs de zona
+      extendida) son provisionales, pendientes de cotizar paqueterías. Viven en
+      `lib/config-envios.ts` (respaldo) y en la tabla `Configuracion` de Neon.
+- [ ] **Rotar la contraseña de Neon.** La connection string actual pasó por el chat
+      durante la construcción; antes de producción se rota en Neon y Juan Fran
+      actualiza las variables en Netlify.
+
 **Por qué el video va en la fase 5 y no antes:** el video cuesta ~54 créditos y es lo único
 que no se arregla programando. La fase 2 valida la dirección visual por ~2 créditos. Si el
 video se atrasa o no queda a la primera, la tienda ya está vendiendo.
@@ -192,7 +202,8 @@ está el modelo de negocio completo.
 ## Variables de entorno
 
 ```
-DATABASE_URL=                  # Neon
+DATABASE_URL=                  # Neon, la cadena CON -pooler (para el sitio en marcha)
+DIRECT_URL=                    # Neon, la cadena SIN pooler (solo para migraciones de Prisma)
 MP_ACCESS_TOKEN=               # Mercado Pago (TEST- primero, APP_USR- en producción)
 NEXT_PUBLIC_MP_PUBLIC_KEY=     # Mercado Pago
 MP_WEBHOOK_SECRET=             # Firma del webhook

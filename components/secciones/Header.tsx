@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/img/logo-maison-nux.png";
+import CarritoBadge from "@/components/carrito/CarritoBadge";
 
 export default function Header() {
   return (
@@ -12,6 +13,7 @@ export default function Header() {
         <Link href="/" aria-label="Maison Nux, inicio">
           <Image src={logo} alt="Maison Nux" className="h-11 w-auto" sizes="140px" priority />
         </Link>
+        <div className="flex items-center gap-6">
         <nav aria-label="Principal" className="hidden gap-8 text-sm font-normal tracking-wide md:flex">
           <a className="hover:text-accent-deep" href="/#presentaciones">
             Presentaciones
@@ -26,6 +28,8 @@ export default function Header() {
             Preguntas
           </a>
         </nav>
+        <CarritoBadge />
+        </div>
       </div>
     </header>
   );

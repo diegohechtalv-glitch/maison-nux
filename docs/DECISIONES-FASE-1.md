@@ -187,3 +187,30 @@ fases siguientes no las reabran.
   de ffmpeg-recipes.md (keyframes cortos, sin audio, compresión web); subir el
   recorrido del héroe a ~700vh para que la apertura respire (es un número,
   no un rediseño); el band map de rangos sigue igual y el flick test manda.
+
+## Fase 3: carrito y envíos (construida; migración pendiente de las cadenas)
+
+- **Configuración de envíos editable sin código ni redeploy:** los valores
+  viven en la fila "envios" de la tabla `Configuracion` en Neon y el sitio los
+  lee en vivo (`/api/config-envios`, sin caché). `lib/config-envios.ts` es el
+  valor inicial y el respaldo, marcado PROVISIONAL: costos, umbrales, mínimo,
+  estados por zona y CPs de zona extendida pendientes de cotizar paqueterías
+  (candado de fase 7 en CLAUDE.md, junto con rotar la contraseña de Neon).
+- **CPs de ejemplo en zona extendida:** 23970 y 40900, solo para probar la
+  maquinaria; la lista real la carga Juan Fran (puede lanzarse vacía).
+- **Carrito persistente** en localStorage (clave maison-nux-carrito-v1),
+  botón "Agregar al carrito" en las tarjetas y contador en el header.
+- **Barra de envío gratis** con el copy verbatim de TEXTOS §4; sugiere la
+  bolsa de 40 g cuando faltan menos de $60. Umbral mostrado por zona
+  ($500 Occidente, $750 resto); zona extendida: "En tu zona el envío siempre
+  tiene costo." (adaptado de la política aprobada).
+- **Lógica verificada:** 19 casos automatizados contra la tabla de CLAUDE.md
+  (todos los tramos, mínimo, extendida, faltantes $30/$10/$50) y 5 escenarios
+  capturados en navegador real sin errores.
+- **Microcopy funcional nuevo (no estaba en los docs, por bendecir):**
+  "Agregado", "Tu carrito está vacío.", "Elige tu estado", "Continuar al
+  pago", "El pago se conecta en la fase 4", y el aviso de zona extendida en
+  el carrito.
+- **Pendiente inmediato:** Juan Fran pasa las dos cadenas de Neon (con
+  -pooler → DATABASE_URL, sin pooler → DIRECT_URL, solo en .env.local) para
+  correr `prisma migrate dev` y el seed.

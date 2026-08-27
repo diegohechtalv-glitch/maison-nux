@@ -2,6 +2,7 @@ import Image from "next/image";
 import TituloSeccion from "@/components/ui/TituloSeccion";
 import { productos } from "@/lib/productos";
 import { formatoPrecioCorto } from "@/lib/formato";
+import AgregarAlCarrito from "@/components/carrito/AgregarAlCarrito";
 import bolsa40 from "@/public/img/bolsa-40g.jpg";
 import bolsa120 from "@/public/img/bolsa-120g.jpg";
 import bolsa300 from "@/public/img/bolsa-300g.jpg";
@@ -46,6 +47,7 @@ export default function Presentaciones() {
                 {formatoPrecioCorto(p.precioCentavos)}
                 <span className="filete-precio" aria-hidden="true" />
               </p>
+              <AgregarAlCarrito productoId={p.id} />
               <span className="corner tl" aria-hidden="true" />
               <span className="corner tr" aria-hidden="true" />
               <span className="corner bl" aria-hidden="true" />

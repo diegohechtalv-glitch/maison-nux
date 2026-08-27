@@ -1,0 +1,38 @@
+// Base: Neon (Postgres). DATABASE_URL = cadena con -pooler (runtime),
+// DIRECT_URL = cadena sin pooler (migraciones). Ambas viven solo en .env.local
+// y en las variables de Netlify, nunca en el repositorio.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Las 4 presentaciones. La única fuente de verdad del contenido es
+// lib/productos.ts: el seed vuelca ese archivo aquí. No editar a mano.
+model Producto {
+  id             String   @id
+  gramos         Int
+  precioCentavos Int
+  foto           String
+  nombre         String
+  frase          String
+  parrafo        String
+  activo         Boolean  @default(true)
+  creadoEn       DateTime @default(now())
+  actualizadoEn  DateTime @updatedAt
+}
+
+// Configuración editable sin tocar código ni redesplegar: se edita esta fila
+// (desde el admin en la fase 6, o en la consola de Neon mientras tanto) y el
+// sitio la lee en vivo. La clave "envios" guarda zonas, costos y umbrales;
+// el respaldo por defecto vive en lib/config-envios.ts.
+model Configuracion {
+  clave         String   @id
+  datos         Json
+  actualizadoEn DateTime @updatedAt
+}

@@ -82,7 +82,10 @@ export async function POST(req: Request) {
     );
   const envioCentavos = envio.tipo === "gratis" ? 0 : envio.costoCentavos;
 
-  const sitio = process.env.NEXT_PUBLIC_SITE_URL;
+  // Se limpia la diagonal final por si la variable quedó como
+  // "https://sitio.netlify.app/": sin esto, las URLs de regreso y del
+  // webhook salen con doble diagonal y Mercado Pago apunta a páginas rotas.
+  const sitio = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "");
   if (!sitio || !process.env.MP_ACCESS_TOKEN) {
     return error(
       "El pago en línea aún no está configurado. Intenta más tarde.",

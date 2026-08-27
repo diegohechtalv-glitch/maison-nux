@@ -259,7 +259,11 @@ Se cerrará al terminar. Mientras tanto:
 ```bash
 npm run dev            # desarrollo local
 npm run build          # verificar que compila ANTES de hacer push
-npx prisma migrate dev # aplicar cambios de schema
+npx prisma migrate dev # aplicar cambios de schema (en una máquina normal)
+# Desde Claude Code Web el puerto de Postgres está bloqueado; ahí las
+# migraciones y el seed van por HTTPS con el mismo historial de Prisma:
+#   npx prisma migrate diff  →  node scripts/migrar-por-https.mjs
+#   node --experimental-strip-types scripts/seed-por-https.mjs
 npx prisma studio      # ver la base de datos en el navegador
 npx prisma db seed     # cargar las 4 presentaciones
 ```

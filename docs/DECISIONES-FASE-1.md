@@ -211,9 +211,17 @@ fases siguientes no las reabran.
   "Agregado", "Tu carrito está vacío.", "Elige tu estado", "Continuar al
   pago", "El pago se conecta en la fase 4", y el aviso de zona extendida en
   el carrito.
-- **Pendiente inmediato:** Juan Fran pasa las dos cadenas de Neon (con
-  -pooler → DATABASE_URL, sin pooler → DIRECT_URL, solo en .env.local) para
-  correr `prisma migrate dev` y el seed.
+- **Base de Neon migrada y sembrada (2026-08-27).** Las cadenas viven solo
+  en .env.local. El entorno de Claude Code Web no puede abrir el puerto de
+  Postgres (5432), así que la migración y el seed se aplicaron POR HTTPS con
+  `scripts/migrar-por-https.mjs` y `scripts/seed-por-https.mjs`: el SQL lo
+  genera Prisma (`migrate diff`) y el script lo registra en
+  `_prisma_migrations` con el checksum estándar, de modo que
+  `prisma migrate deploy/dev` en Netlify o en una máquina normal ve el
+  historial como propio. Verificado con lecturas reales: 4 productos y la
+  fila "envios" (mínimo 15000, 3 zonas). Nota: desde este entorno el sitio
+  local usa el respaldo de archivo (no hay TCP); en Netlify la lectura viva
+  de Neon funciona con DATABASE_URL/DIRECT_URL en sus variables.
 - **Fase 3 aprobada por Juan Fran** (verificó los escenarios y la aritmética).
   Ajuste pedido y aplicado: el aviso bajo el botón de pago ahora dice
   "Estamos afinando el pago en línea. Muy pronto." (el interno "fase 4" era

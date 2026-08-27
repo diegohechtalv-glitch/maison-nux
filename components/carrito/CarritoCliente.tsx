@@ -220,16 +220,15 @@ export default function CarritoCliente() {
         </p>
       )}
 
-      <button
-        type="button"
-        className="btn-primario mt-8 w-full text-center disabled:cursor-not-allowed disabled:opacity-40"
-        disabled={!puedeContinuar}
+      <a
+        href="/checkout"
+        aria-disabled={!puedeContinuar}
+        className={`btn-primario mt-8 block w-full text-center ${
+          puedeContinuar ? "" : "pointer-events-none opacity-40"
+        }`}
       >
         Continuar al pago
-      </button>
-      <p className="mt-2 text-center font-mono text-[0.65rem] uppercase tracking-[0.12em] text-text-secondary">
-        Estamos afinando el pago en línea. Muy pronto.
-      </p>
+      </a>
     </div>
   );
 }

@@ -82,11 +82,11 @@ antes de seguir. **No adelantes fases.**
 
 **Pendientes obligatorios de la fase 4 (al conectar Mercado Pago):**
 
-- [ ] Quitar del carrito el texto "Estamos afinando el pago en línea. Muy pronto."
-      y activar el botón de pago real.
-- [ ] Validar que el código postal corresponda al estado elegido (hoy se aceptan
-      combinaciones imposibles, p. ej. Puebla con CP de Baja California Sur; un CP
-      equivocado puede caer en la zona errónea y el sobrecosto lo absorbe la marca).
+- [x] Quitar del carrito el texto "Estamos afinando el pago en línea. Muy pronto."
+      y activar el botón de pago real. (Hecho en fase 4.)
+- [x] Validar que el código postal corresponda al estado elegido. (Hecho:
+      `lib/codigos-postales.ts`, aviso en vivo en el checkout y rechazo en el
+      servidor.)
 
 **Candados obligatorios de la fase 7 (no se sale a producción sin esto):**
 

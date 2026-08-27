@@ -36,3 +36,47 @@ model Configuracion {
   datos         Json
   actualizadoEn DateTime @updatedAt
 }
+
+// Pedidos. Un pedido nace `pendiente` al crear la preferencia de Mercado Pago
+// y SOLO el webhook (verificando la firma) lo pasa a `pagado` o `fallido`.
+// Estados: pendiente | pagado | enviado | entregado | cancelado | fallido.
+model Pedido {
+  id               String       @id @default(cuid())
+  numero           Int          @unique @default(autoincrement())
+  estado           String       @default("pendiente")
+
+  // Datos del cliente. No se escriben en logs ni se exponen en APIs públicas.
+  nombre           String
+  correo           String
+  telefono         String // formato 521 + 10 dígitos
+  calle            String
+  colonia          String
+  ciudad           String
+  estadoEnvio      String
+  codigoPostal     String
+
+  zonaId           String
+  subtotalCentavos Int
+  envioCentavos    Int
+  totalCentavos    Int
+
+  mpPreferenceId   String?
+  mpPaymentId      String?
+
+  creadoEn         DateTime     @default(now())
+  actualizadoEn    DateTime     @updatedAt
+  items            PedidoItem[]
+}
+
+// Copia congelada de cada línea al momento de comprar: si mañana cambian
+// precios o nombres, el pedido histórico no se mueve.
+model PedidoItem {
+  id             String @id @default(cuid())
+  pedidoId       String
+  pedido         Pedido @relation(fields: [pedidoId], references: [id])
+  productoId     String
+  nombre         String
+  gramos         Int
+  precioCentavos Int
+  cantidad       Int
+}

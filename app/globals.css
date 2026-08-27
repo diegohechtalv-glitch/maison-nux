@@ -494,3 +494,13 @@ html.hero-degradado .hero-static { display: block; }
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
+
+.etiqueta-campo {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+}

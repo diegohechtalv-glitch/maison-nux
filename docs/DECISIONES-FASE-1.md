@@ -228,3 +228,36 @@ fases siguientes no las reabran.
   lenguaje de obra en un sitio público). El resto del microcopy funcional
   quedó bendecido. Pendientes anotados en CLAUDE.md para la fase 4: quitar
   ese aviso al conectar Mercado Pago y validar CP contra estado.
+
+## Fase 4: pagos en modo prueba (construida; falta la compra de prueba)
+
+- **Pedidos en Neon:** tablas `Pedido` (número autoincremental, estados
+  pendiente/pagado/enviado/entregado/cancelado/fallido, preference_id y
+  payment_id, teléfono 521+10) y `PedidoItem` (línea congelada al comprar).
+  Migración `fase4_pedidos` aplicada por la vía HTTPS.
+- **Checkout** en `/checkout`: el servidor recalcula subtotal, zona y envío
+  desde lib/productos.ts y la configuración viva (el navegador solo manda ids
+  y cantidades); valida correo, teléfono de 10 dígitos, y CP contra estado
+  (dos primeros dígitos, `lib/codigos-postales.ts`) con aviso en vivo y
+  rechazo en servidor. Zona extendida y bajo mínimo no pueden pagar en línea.
+- **Mercado Pago Checkout Pro** por API con llave de idempotencia y
+  external_reference = id del pedido; back_urls a `/pedido/[id]`.
+- **Webhook `/api/mp/webhook`:** verifica la firma HMAC oficial
+  (timingSafeEqual), consulta el pago a la API de MP y SOLO él marca
+  pagado/fallido, idempotente. Sin datos de clientes en logs.
+- **Correos con Resend** al confirmarse el pago: cliente (TEXTOS §9 verbatim)
+  y aviso interno. El asunto interno va sin emoji ni raya
+  ("Pedido nuevo #N · $total"), pendiente de bendición: el original traía 🔔
+  y em dash. Remitente provisional onboarding@resend.dev hasta tener dominio
+  (fase 7); configurable con CORREO_REMITENTE.
+- **Verificado sin llaves reales:** 14 casos unitarios (CP y firma) y
+  pruebas de integración contra el servidor local: firma inválida→401,
+  válida→consulta a MP, evento no-pago→200, CP incongruente→rechazo con
+  mensaje, bajo mínimo→rechazo. Las llaves de MP/Resend nunca pasan por el
+  chat: van directo en Netlify, y la compra de prueba se hace en el sitio
+  desplegado (el webhook necesita URL pública).
+- **Microcopy funcional nuevo (por bendecir):** título "¿A dónde va tu
+  pedido?", etiquetas del formulario, mensajes de error del checkout, textos
+  de la página de pedido ("Gracias por tu pedido." / "Estamos confirmando tu
+  pago" / "El pago no se completó") y "Pago seguro en la pantalla de Mercado
+  Pago".

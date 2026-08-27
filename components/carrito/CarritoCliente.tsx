@@ -228,7 +228,7 @@ export default function CarritoCliente() {
         Continuar al pago
       </button>
       <p className="mt-2 text-center font-mono text-[0.65rem] uppercase tracking-[0.12em] text-text-secondary">
-        El pago se conecta en la fase 4
+        Estamos afinando el pago en línea. Muy pronto.
       </p>
     </div>
   );

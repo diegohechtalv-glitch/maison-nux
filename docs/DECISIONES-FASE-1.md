@@ -214,3 +214,9 @@ fases siguientes no las reabran.
 - **Pendiente inmediato:** Juan Fran pasa las dos cadenas de Neon (con
   -pooler → DATABASE_URL, sin pooler → DIRECT_URL, solo en .env.local) para
   correr `prisma migrate dev` y el seed.
+- **Fase 3 aprobada por Juan Fran** (verificó los escenarios y la aritmética).
+  Ajuste pedido y aplicado: el aviso bajo el botón de pago ahora dice
+  "Estamos afinando el pago en línea. Muy pronto." (el interno "fase 4" era
+  lenguaje de obra en un sitio público). El resto del microcopy funcional
+  quedó bendecido. Pendientes anotados en CLAUDE.md para la fase 4: quitar
+  ese aviso al conectar Mercado Pago y validar CP contra estado.

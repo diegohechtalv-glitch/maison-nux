@@ -80,6 +80,14 @@ antes de seguir. **No adelantes fases.**
 | 6 | **Panel de pedidos** | `/admin` protegido: lista, detalle, cambio de estado, editar zonas y costos | Marcas un pedido como enviado y el cliente recibe aviso |
 | 7 | **Dominio y producción** | Dominio en Netlify, credenciales `APP_USR-`, SEO, Open Graph, sitemap | Compra real de bajo monto llega a Mercado Pago |
 
+**Pendientes obligatorios de la fase 4 (al conectar Mercado Pago):**
+
+- [ ] Quitar del carrito el texto "Estamos afinando el pago en línea. Muy pronto."
+      y activar el botón de pago real.
+- [ ] Validar que el código postal corresponda al estado elegido (hoy se aceptan
+      combinaciones imposibles, p. ej. Puebla con CP de Baja California Sur; un CP
+      equivocado puede caer en la zona errónea y el sobrecosto lo absorbe la marca).
+
 **Candados obligatorios de la fase 7 (no se sale a producción sin esto):**
 
 - [ ] **Confirmar costos y zonas de envío definitivos.** Los números de la fase 3

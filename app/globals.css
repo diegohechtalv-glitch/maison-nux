@@ -182,7 +182,9 @@ html.hero-degradado .hero-static { display: block; }
    Lo mismo regirá con el video en la fase 5. */
 
 .hero-scrub {
-  height: 500vh;
+  /* 12.58 s de recorrido piden más scroll que la foto fija: ~86vh por
+     segundo de video, validado con el flick test */
+  height: 700vh;
   position: relative;
 }
 
@@ -192,8 +194,9 @@ html.hero-degradado .hero-static { display: block; }
   height: 100vh;
   height: 100svh;
   overflow: hidden;
-  /* kraft plano sampleado del borde izquierdo real de la foto */
-  background: #dcb283;
+  /* kraft plano que sigue el tono del borde del video según el scroll
+     (--hero-kraft la escribe el JS desde la rampa medida en bands.ts) */
+  background: var(--hero-kraft, #bf9e7f);
 }
 
 .hero-foto-wrap {
@@ -203,7 +206,7 @@ html.hero-degradado .hero-static { display: block; }
   bottom: 0;
   width: 62%;
 }
-/* funde el borde de la foto con el kraft plano del fondo, sin costura */
+/* funde el borde del video con el kraft plano del fondo, sin costura */
 .hero-foto-wrap::before {
   content: "";
   position: absolute;
@@ -213,7 +216,47 @@ html.hero-degradado .hero-static { display: block; }
   width: 42%;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(90deg, #dcb283 0%, rgba(220, 178, 131, 0) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--hero-kraft, #bf9e7f) 0%,
+    transparent 100%
+  );
+}
+
+/* póster (primer cuadro) y video comparten encuadre: el sujeto vive abajo a
+   la derecha del metraje, así que se muestra el costado derecho */
+.hero-foto-wrap img,
+.hero-video {
+  object-position: 90% 50%;
+}
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  transform: translateZ(0); /* capa propia: sus repintados no arrastran nada */
+}
+.video-listo .hero-video {
+  opacity: 1;
+}
+/* anillo de progreso mientras el video baja en segundo plano */
+.hero-anillo {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 34px;
+  height: 34px;
+  z-index: 2;
+  color: var(--accent-deep);
+  opacity: 0.8;
+  transition: opacity 0.4s ease;
+  transform: rotate(-90deg);
+}
+.hero-anillo circle {
+  transition: stroke-dashoffset 0.15s linear;
 }
 
 .band {
@@ -293,10 +336,6 @@ html.hero-degradado .hero-static { display: block; }
 /* héroe animado en celular: encuadre vertical, texto arriba sobre kraft
    limpio y la bolsa abajo; nunca se superponen */
 @media (max-width: 720px) {
-  .hero-stage {
-    /* kraft plano sampleado del borde superior real de la foto */
-    background: #e3b98b;
-  }
   .hero-foto-wrap {
     top: auto;
     left: 0;
@@ -312,10 +351,19 @@ html.hero-degradado .hero-static { display: block; }
     bottom: auto;
     width: 100%;
     height: 34%;
-    background: linear-gradient(180deg, #e3b98b 0%, rgba(227, 185, 139, 0) 100%);
+    background: linear-gradient(
+      180deg,
+      var(--hero-kraft, #bf9e7f) 0%,
+      transparent 100%
+    );
   }
-  .hero-foto-wrap img {
-    object-position: 50% 16%;
+  .hero-foto-wrap img,
+  .hero-video {
+    object-position: 85% 50%;
+  }
+  .hero-anillo {
+    right: 1rem;
+    bottom: 1rem;
   }
   .band {
     left: 1.25rem;

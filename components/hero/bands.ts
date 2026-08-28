@@ -41,6 +41,20 @@ export const bands: Band[] = [
   },
 ];
 
+// Fase 5: color del kraft plano (donde vive el texto) siguiendo el tono real
+// del borde izquierdo/superior del video, medido cuadro por cuadro con sharp.
+// Los dos últimos puntos están recortados a #b0937c: el tono real del final
+// (#9b7f6b) deja el texto café en 3.7:1 y el mínimo del proyecto es 4.5:1;
+// con el piso #b0937c queda en 4.8:1 y el degradado ancho funde la diferencia.
+export const KRAFT_RAMP: Array<{ p: number; rgb: [number, number, number] }> = [
+  { p: 0, rgb: [191, 158, 127] }, // #bf9e7f
+  { p: 0.16, rgb: [195, 162, 131] }, // #c3a283
+  { p: 0.52, rgb: [194, 160, 130] }, // #c2a082
+  { p: 0.64, rgb: [186, 154, 130] }, // #ba9a82
+  { p: 0.8, rgb: [176, 147, 124] }, // piso de contraste
+  { p: 1, rgb: [176, 147, 124] },
+];
+
 // 14 partículas con valores fijos (nada aleatorio en render: el servidor y el
 // navegador deben pintar exactamente lo mismo). x/y en %, tamaño en px,
 // caída en px, th = umbral de arranque escalonado dentro de la banda.

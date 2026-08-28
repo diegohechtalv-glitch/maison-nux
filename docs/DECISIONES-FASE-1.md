@@ -283,3 +283,35 @@ fases siguientes no las reabran.
 - **Número de guía:** el aviso al cliente con su guía se manda desde el
   panel de la fase 6 (marcar pedido como "enviado" + capturar guía dispara
   el correo automáticamente). No es un proceso manual.
+
+## Fase 5: video en el héroe (2026-08-28)
+
+- **Cero créditos gastados:** todo fue procesamiento del material ya aprobado.
+- **Una sola compresión desde los originales** (`heroe-master-2k.mp4` 6.58 s
+  + `heroe-extension-seedance.mp4` 6.00 s), unidos y codificados en una
+  pasada con fotogramas clave cada 8 cuadros (`-g 8`), sin audio: es lo que
+  hace que el scroll pueda caer en cualquier cuadro sin trabarse.
+- **Cuatro archivos en `public/video/`:** escritorio y celular, cada uno en
+  WebM/VP9 (3.2 y 1.8 MB, va primero si el navegador lo domina) y MP4/h264
+  (7.7 y 2.9 MB, respaldo universal). Más `heroe-poster.jpg` (primer cuadro,
+  136 KB) que se pinta al instante mientras el video baja.
+- **Carga como Blob con anillo de progreso** (regla de la skill: muchos
+  hosts no soportan descargas parciales y el scrub se congela; el Blob lo
+  evita siempre). Vigilante de 20 s: si la descarga se cuelga, la página
+  sigue completa sobre el póster. Seeks con compuerta (nunca dos en vuelo).
+- **El héroe pasó de 500vh a 700vh:** 12.58 s de recorrido necesitan más
+  scroll para que cada banda respire (~86vh por segundo).
+- **Kraft vivo:** el color plano donde vive el texto ya no es fijo; sigue
+  una rampa medida del borde real del video (de #bf9e7f a #ba9a82) escrita
+  por el mismo bucle del scrub. Piso de contraste en #b0937c porque el tono
+  real del final (#9b7f6b) dejaba el texto café en 3.7:1 (mínimo 4.5:1).
+- **El diseño de las 4 bandas NO se tocó** (regla de fase 1): mismo band
+  map, mismos textos, misma composición (titular nunca sobre el sujeto;
+  escritorio panel derecho 62% con encuadre 90%, celular texto arriba /
+  video abajo con encuadre 85%).
+- **Verificado en navegador real (Chromium controlado):** el video sigue el
+  scroll (t = progreso × 12.58 s) en escritorio y celular; flick test de
+  360px con las 4 bandas legibles; consola limpia; contraste píxel por
+  píxel con letras ocultas: 4.80:1 a 5.72:1 en todas las bandas y ambos
+  tamaños; sin video la página queda completa; con reduced motion sale el
+  estático y no se descarga ni un byte de video.

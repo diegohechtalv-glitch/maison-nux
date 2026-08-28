@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { bands, SALT_PARTICLES } from "./bands";
-import fotoHero from "@/public/img/bolsa-120g.jpg";
+import { bands, SALT_PARTICLES, KRAFT_RAMP } from "./bands";
+import posterHero from "@/public/video/heroe-poster.jpg";
 
 // El héroe animado corre también en celular (decisión de Juan Fran,
 // fase 1). El estático es respaldo, con dos vías:
@@ -12,6 +12,23 @@ import fotoHero from "@/public/img/bolsa-120g.jpg";
 // 2. conexión lenta o equipo corto: solo se puede saber desde JS, así que
 //    el JS pone la clase hero-degradado en <html> y el CSS la obedece.
 const GATES = ["(prefers-reduced-motion: reduce)"];
+
+// Fase 5: el video se baja completo como Blob (muchos hosts no soportan
+// descargas parciales y sin esto el scrub no busca ningún cuadro). Los
+// tamaños son los bytes reales de cada archivo: el respaldo cuando el
+// servidor no manda Content-Length. WebM (VP9) pesa menos y va primero
+// cuando el navegador lo domina; MP4 (h264) es el respaldo universal.
+const VIDEOS = {
+  webm: {
+    escritorio: { url: "/video/heroe-escritorio.webm", bytes: 3204366 },
+    celular: { url: "/video/heroe-celular.webm", bytes: 1789524 },
+  },
+  mp4: {
+    escritorio: { url: "/video/heroe-escritorio.mp4", bytes: 7733824 },
+    celular: { url: "/video/heroe-celular.mp4", bytes: 2919559 },
+  },
+};
+const RING_C = 126; // circunferencia del anillo de carga (r=20)
 
 function equipoCorto(): boolean {
   const nav = navigator as Navigator & {
@@ -30,16 +47,34 @@ const smoothstep = (p: number, e0: number, e1: number) => {
   return t * t * (3 - 2 * t);
 };
 
+// Color del kraft plano interpolado sobre la rampa medida del video.
+function kraftEn(p: number): string {
+  const r = KRAFT_RAMP;
+  let i = 1;
+  while (i < r.length - 1 && p > r[i].p) i++;
+  const a = r[i - 1];
+  const b = r[i];
+  const t = Math.min(1, Math.max(0, (p - a.p) / (b.p - a.p || 1)));
+  const mix = a.rgb.map((c, j) => Math.round(c + (b.rgb[j] - c) * t));
+  return `rgb(${mix[0]} ${mix[1]} ${mix[2]})`;
+}
+
 export default function HeroScrub() {
   const rootRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const ringRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
+    const video = videoRef.current;
+    const ring = ringRef.current;
+    if (!root || !video || !ring) return;
+    const stage = root.querySelector<HTMLElement>(".hero-stage")!;
     const bandEls = bands.map(
       (b) => root.querySelector<HTMLElement>(`[data-band="${b.id}"]`)!
     );
     const cache = bands.map(() => ({ op: -1, k: -1 }));
+    let kraftCache = "";
 
     let target = 0;
     let shown = 0;
@@ -50,6 +85,100 @@ export default function HeroScrub() {
     let loadK = 0;
     let loadStart = 0;
     let loadRaf: number | null = null;
+
+    // --- compuerta de seeks: nunca escribir currentTime con uno en vuelo ---
+    let seekBusy = false;
+    let pendingTime = null as number | null;
+    const requestSeek = (t: number) => {
+      if (!video.duration || !videoListo) return;
+      if (seekBusy) {
+        pendingTime = t;
+        return;
+      }
+      seekBusy = true;
+      video.currentTime = t;
+    };
+    const onSeeked = () => {
+      seekBusy = false;
+      if (pendingTime !== null) {
+        const t = pendingTime;
+        pendingTime = null;
+        requestSeek(t);
+      }
+    };
+    const onVideoError = () => {
+      seekBusy = false;
+      pendingTime = null;
+    };
+    video.addEventListener("seeked", onSeeked);
+    video.addEventListener("error", onVideoError);
+
+    // --- descarga del video como Blob con anillo de progreso ---
+    let videoListo = false;
+    let fetchIniciado = false;
+    let objectUrl: string | null = null;
+    let watchdog: ReturnType<typeof setTimeout> | null = null;
+
+    const failVideo = () => {
+      // sin video la página sigue completa sobre el póster
+      ring.style.opacity = "0";
+      stage.classList.add("video-fallo");
+    };
+
+    const cargarVideo = async () => {
+      const formato =
+        video.canPlayType('video/webm; codecs="vp9"') === "probably"
+          ? "webm"
+          : "mp4";
+      const fuente = matchMedia("(max-width: 720px)").matches
+        ? VIDEOS[formato].celular
+        : VIDEOS[formato].escritorio;
+      const ctrl = new AbortController();
+      watchdog = setTimeout(() => ctrl.abort(), 20000);
+      const res = await fetch(fuente.url, { signal: ctrl.signal });
+      if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
+      const total = Number(res.headers.get("Content-Length")) || fuente.bytes;
+      const reader = res.body.getReader();
+      const chunks: Uint8Array[] = [];
+      let got = 0;
+      let lastRing = 0;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (watchdog) clearTimeout(watchdog); // se rearma con cada trozo:
+        watchdog = setTimeout(() => ctrl.abort(), 20000); // 20 s sin avance aborta
+        chunks.push(value);
+        got += value.length;
+        const frac = Math.min(1, got / total);
+        const now = performance.now();
+        if (now - lastRing > 100 || frac === 1) {
+          lastRing = now;
+          ring.style.setProperty("--ld", String(Math.round(RING_C * (1 - frac))));
+        }
+      }
+      if (watchdog) clearTimeout(watchdog);
+      watchdog = null;
+      ring.style.setProperty("--ld", "0");
+      objectUrl = URL.createObjectURL(new Blob(chunks as BlobPart[]));
+      video.src = objectUrl;
+      video.load();
+      video.addEventListener(
+        "canplay",
+        () => {
+          videoListo = true;
+          requestSeek(shown * video.duration); // caer en la posición actual
+          stage.classList.add("video-listo"); // CSS funde el video sobre el póster
+          ring.style.opacity = "0";
+        },
+        { once: true }
+      );
+    };
+
+    const iniciarFetch = () => {
+      if (fetchIniciado) return;
+      fetchIniciado = true;
+      cargarVideo().catch(failVideo);
+    };
 
     const heroProgress = () => {
       const rect = root.getBoundingClientRect();
@@ -78,6 +207,13 @@ export default function HeroScrub() {
           bandEls[i].style.setProperty("--k", k.toFixed(3));
         }
       });
+      // el kraft plano sigue el tono del borde del video en este punto
+      const kraft = kraftEn(p);
+      if (kraft !== kraftCache) {
+        kraftCache = kraft;
+        stage.style.setProperty("--hero-kraft", kraft);
+      }
+      if (video.duration && videoListo) requestSeek(p * video.duration);
     };
 
     // lerp con rAF que descansa: normalizado a 60 fps para que se sienta
@@ -127,11 +263,13 @@ export default function HeroScrub() {
         c.op = -1;
         c.k = -1;
       });
+      kraftCache = "";
       target = heroProgress();
       shown = target;
       paint(shown);
       if (loadK < 1 && loadRaf === null)
         loadRaf = requestAnimationFrame(runLoadRamp);
+      iniciarFetch(); // el video solo se descarga en la vía animada
     };
     const disable = () => {
       if (!armed) return;
@@ -154,6 +292,10 @@ export default function HeroScrub() {
       io.disconnect();
       mqls.forEach((m) => m.removeEventListener("change", applyMode));
       if (loadRaf !== null) cancelAnimationFrame(loadRaf);
+      if (watchdog) clearTimeout(watchdog);
+      video.removeEventListener("seeked", onSeeked);
+      video.removeEventListener("error", onVideoError);
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, []);
 
@@ -162,14 +304,40 @@ export default function HeroScrub() {
       <div className="hero-stage">
         <div className="hero-foto-wrap" aria-hidden="true">
           <Image
-            src={fotoHero}
+            src={posterHero}
             alt=""
             fill
             priority
             sizes="(max-width: 720px) 100vw, 62vw"
-            className="object-cover"
+            className="hero-poster object-cover"
             placeholder="blur"
           />
+          <video
+            ref={videoRef}
+            className="hero-video"
+            muted
+            playsInline
+            preload="none"
+            tabIndex={-1}
+            aria-hidden="true"
+          />
+          <svg
+            ref={ringRef}
+            className="hero-anillo"
+            viewBox="0 0 48 48"
+            aria-hidden="true"
+          >
+            <circle
+              cx="24"
+              cy="24"
+              r="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeDasharray={RING_C}
+              style={{ strokeDashoffset: "var(--ld, 126)" }}
+            />
+          </svg>
         </div>
         {bands.map((b, i) => (
           <div

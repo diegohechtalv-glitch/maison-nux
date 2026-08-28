@@ -261,3 +261,25 @@ fases siguientes no las reabran.
   de la página de pedido ("Gracias por tu pedido." / "Estamos confirmando tu
   pago" / "El pago no se completó") y "Pago seguro en la pantalla de Mercado
   Pago".
+
+## Fase 4: verificación en producción de prueba (2026-08-27) — CERRADA
+
+- **Compra de prueba real completada por Juan Fran** en el sitio de Netlify
+  (gleaming-torte-365640.netlify.app) con credenciales TEST- y tarjeta de
+  prueba. Pedido #1 y pedido #2 quedaron `pagado` vía webhook firmado
+  (payment_id registrado). Página `/pedido/[id]` muestra "Gracias por tu
+  pedido." con desglose correcto ($720, envío gratis, zona Occidente).
+- **Bug encontrado y corregido:** `NEXT_PUBLIC_SITE_URL` quedó en Netlify
+  con diagonal final, lo que produjo `//pedido/...` en las back_urls y rompió
+  la página de regreso (primer intento). El checkout ahora limpia diagonales
+  finales de la variable antes de armar URLs (commit e6a3d78).
+- **Correos verificados:** confirmación al cliente y aviso interno llegaron.
+  Limitación temporal conocida: mientras el dominio no esté verificado en
+  Resend (fase 7), Resend solo entrega al correo dueño de la cuenta de
+  Resend, así que `CONTACTO_EMAIL` apunta por ahora al correo personal de
+  Juan Fran. **Pendiente fase 7:** verificar dominio en Resend, poner
+  remitente propio (`CORREO_REMITENTE`) y cambiar `CONTACTO_EMAIL` al correo
+  del negocio.
+- **Número de guía:** el aviso al cliente con su guía se manda desde el
+  panel de la fase 6 (marcar pedido como "enviado" + capturar guía dispara
+  el correo automáticamente). No es un proceso manual.

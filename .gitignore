@@ -15,8 +15,8 @@ build/
 .env.production
 .env*.local
 
-# netlify
-.netlify/
+# vercel
+.vercel
 
 # misc
 .DS_Store

@@ -217,10 +217,10 @@ fases siguientes no las reabran.
   `scripts/migrar-por-https.mjs` y `scripts/seed-por-https.mjs`: el SQL lo
   genera Prisma (`migrate diff`) y el script lo registra en
   `_prisma_migrations` con el checksum estándar, de modo que
-  `prisma migrate deploy/dev` en Netlify o en una máquina normal ve el
+  `prisma migrate deploy/dev` en Vercel o en una máquina normal ve el
   historial como propio. Verificado con lecturas reales: 4 productos y la
   fila "envios" (mínimo 15000, 3 zonas). Nota: desde este entorno el sitio
-  local usa el respaldo de archivo (no hay TCP); en Netlify la lectura viva
+  local usa el respaldo de archivo (no hay TCP); en Vercel la lectura viva
   de Neon funciona con DATABASE_URL/DIRECT_URL en sus variables.
 - **Fase 3 aprobada por Juan Fran** (verificó los escenarios y la aritmética).
   Ajuste pedido y aplicado: el aviso bajo el botón de pago ahora dice
@@ -254,7 +254,7 @@ fases siguientes no las reabran.
   pruebas de integración contra el servidor local: firma inválida→401,
   válida→consulta a MP, evento no-pago→200, CP incongruente→rechazo con
   mensaje, bajo mínimo→rechazo. Las llaves de MP/Resend nunca pasan por el
-  chat: van directo en Netlify, y la compra de prueba se hace en el sitio
+  chat: van directo en el panel del hosting, y la compra de prueba se hace en el sitio
   desplegado (el webhook necesita URL pública).
 - **Microcopy funcional nuevo (por bendecir):** título "¿A dónde va tu
   pedido?", etiquetas del formulario, mensajes de error del checkout, textos
@@ -264,13 +264,14 @@ fases siguientes no las reabran.
 
 ## Fase 4: verificación en producción de prueba (2026-08-27) — CERRADA
 
-- **Compra de prueba real completada por Juan Fran** en el sitio de Netlify
-  (gleaming-torte-365640.netlify.app) con credenciales TEST- y tarjeta de
+- **Compra de prueba real completada por Juan Fran** en el sitio desplegado
+  (entonces en Netlify; el proyecto migró a Vercel el 2026-08-28) con
+  credenciales TEST- y tarjeta de
   prueba. Pedido #1 y pedido #2 quedaron `pagado` vía webhook firmado
   (payment_id registrado). Página `/pedido/[id]` muestra "Gracias por tu
   pedido." con desglose correcto ($720, envío gratis, zona Occidente).
-- **Bug encontrado y corregido:** `NEXT_PUBLIC_SITE_URL` quedó en Netlify
-  con diagonal final, lo que produjo `//pedido/...` en las back_urls y rompió
+- **Bug encontrado y corregido:** `NEXT_PUBLIC_SITE_URL` quedó en el panel
+  del hosting con diagonal final, lo que produjo `//pedido/...` en las back_urls y rompió
   la página de regreso (primer intento). El checkout ahora limpia diagonales
   finales de la variable antes de armar URLs (commit e6a3d78).
 - **Correos verificados:** confirmación al cliente y aviso interno llegaron.
@@ -315,3 +316,37 @@ fases siguientes no las reabran.
   píxel con letras ocultas: 4.80:1 a 5.72:1 en todas las bandas y ambos
   tamaños; sin video la página queda completa; con reduced motion sale el
   estático y no se descarga ni un byte de video.
+
+## Cambio de hosting: de Netlify a Vercel (2026-08-28)
+
+- **Decisión de Juan Fran.** La tienda se muda a Vercel, donde ya vive su CRM.
+  Dos razones: tener todo en el mismo lugar, y que Netlify agotó sus créditos
+  gratuitos y dejó los deploys de producción pausados (por eso la fase 5 quedó
+  commiteada en main sin publicarse; el primer deploy de Vercel la publica).
+- **Esto revierte la decisión original del brief**, que eligió Netlify porque
+  el plan gratuito de Vercel prohíbe el uso comercial. Esa restricción sigue
+  siendo cierta: **el plan Hobby de Vercel es solo para uso no comercial y esto
+  es una tienda que cobra.** Anotado como candado de la fase 7: confirmar plan
+  Pro antes de vender de verdad.
+- **Qué se quitó del repo:** `netlify.toml` y la entrada `.netlify/` del
+  `.gitignore` (sustituida por `.vercel`). El paquete `@netlify/plugin-nextjs`
+  nunca estuvo en `package.json`: Netlify lo instalaba solo al leer el toml,
+  así que no hubo dependencia que desinstalar. De paso se borró
+  `.capv-temp.mjs`, un script suelto de captura que quedó de la fase 2.
+- **Auditoría de URLs escritas a mano: ninguna.** Se revisó todo el código y no
+  hay un solo `netlify.app` en lógica viva. Las back_urls y el
+  `notification_url` de Mercado Pago se arman desde `NEXT_PUBLIC_SITE_URL`
+  (`app/api/checkout/route.ts`, que además limpia la diagonal final), el
+  `metadataBase` de SEO y Open Graph sale de la misma variable
+  (`app/layout.tsx`) y **los correos de Resend no llevan ningún enlace**: son
+  texto plano. Solo hubo que corregir un comentario que usaba un dominio de
+  netlify.app como ejemplo.
+- **No hace falta `vercel.json`.** Vercel detecta Next.js solo. El
+  `postinstall: prisma generate` ya estaba puesto, que es lo único que Vercel
+  necesita de más para que Prisma sobreviva a los builds cacheados.
+- **Las variables de entorno ahora viven en Vercel → Settings → Environment
+  Variables.** Son 8 (más `ADMIN_PASSWORD` cuando llegue la fase 6); la lista
+  completa quedó en `.env.example`. Neon no cambia.
+- **Pendiente al desplegar:** actualizar el `notification_url` del webhook en
+  el panel de Mercado Pago a la URL nueva de Vercel, o los pagos dejan de
+  confirmarse.

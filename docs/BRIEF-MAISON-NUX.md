@@ -210,14 +210,17 @@ Texto sugerido: *"Te faltan $30 para envío gratis — ¿le agregamos una bolsit
 - **Tailwind CSS**
 - **Prisma** como ORM
 - **Neon** (Postgres serverless) como base de datos
-- **Netlify** para deploy (no Vercel: su plan gratuito prohíbe el uso comercial)
+- **Vercel** para deploy (el mismo lugar donde vive el CRM). Ojo: el plan Hobby es solo para
+  uso no comercial, así que producción real necesita plan Pro. *El proyecto estuvo en Netlify
+  hasta la fase 5; se migró a Vercel el 2026-08-28 y no debe regresar.*
 - **Mercado Pago SDK** para pagos
 - **Resend** para correos
 
 ### Variables de entorno
 
 ```
-DATABASE_URL=                  # Neon
+DATABASE_URL=                  # Neon, la cadena CON -pooler (el sitio en marcha)
+DIRECT_URL=                    # Neon, la cadena SIN pooler (migraciones de Prisma)
 MP_ACCESS_TOKEN=               # Mercado Pago (TEST- al inicio, APP_USR- en producción)
 NEXT_PUBLIC_MP_PUBLIC_KEY=     # Mercado Pago
 MP_WEBHOOK_SECRET=             # Firma del webhook de Mercado Pago
@@ -228,9 +231,10 @@ CONTACTO_EMAIL=                # A dónde llegan los avisos de pedido nuevo
 CONTACTO_WHATSAPP=             # Número con formato 521XXXXXXXXXX
 ```
 
-> **Importante:** todas las llaves las pone Juan Fran directamente en Netlify →
-> Site configuration → Environment variables. **Nunca** las escribas en el código ni en el repo.
+> **Importante:** todas las llaves las pone Juan Fran directamente en Vercel →
+> Settings → Environment Variables. **Nunca** las escribas en el código ni en el repo.
 > El archivo `.env.local` va en `.gitignore` desde el primer commit.
+> Después de agregar o cambiar una variable hay que volver a desplegar para que surta efecto.
 
 ---
 

@@ -21,19 +21,32 @@ el héroe animado encima.**
 ## Stack (no cambiar sin preguntar)
 
 Next.js (App Router) + TypeScript · Tailwind CSS · Prisma · Neon (Postgres) ·
-Netlify · Mercado Pago Checkout Pro · Resend
+**Vercel** · Mercado Pago Checkout Pro · Resend
 
-Es casi el mismo stack con el que Juan Fran construyó su CRM. **La diferencia es el hosting:
-el CRM está en Vercel; esta tienda va en Netlify**, porque el plan gratuito de Vercel prohíbe
-el uso comercial y esto es una tienda que vende. Netlify soporta Next.js completo (App Router,
-Route Handlers, Server Components, Server Actions, SSR e ISR) mediante el adaptador OpenNext,
-así que el webhook de Mercado Pago funciona sin problema.
+Es el mismo stack, y ahora también el mismo hosting, con el que Juan Fran construyó su CRM:
+todo vive en Vercel. Vercel es la plataforma de los creadores de Next.js, así que App Router,
+Route Handlers, Server Components, Server Actions, SSR e ISR funcionan sin adaptadores, y el
+webhook de Mercado Pago corre como Route Handler normal.
 
-**Notas de Netlify que sí importan:**
-- Las variables de entorno van en **Site configuration → Environment variables**.
-- El plan gratuito funciona por créditos (300/mes). Si se agotan, **el sitio se pausa** hasta
-  el siguiente ciclo. Hay que vigilarlo cuando empiece a haber tráfico real.
-- Netlify ofrece su propia base de datos; **no se usa**. La base es Neon, ya creada.
+**El proyecto estuvo en Netlify hasta la fase 5** (2026-08-28). Se migró a Vercel por decisión
+de Juan Fran, para tener tienda y CRM en el mismo lugar, y porque Netlify agotó sus créditos
+gratuitos y dejó los deploys de producción pausados. **No hay nada de Netlify en el repo y no
+debe volver:** ni `netlify.toml`, ni `@netlify/plugin-nextjs`, ni rutas de su panel.
+
+**Notas de Vercel que sí importan:**
+- Las variables de entorno van en **Settings → Environment Variables**, y hay que marcarlas
+  para los entornos donde apliquen (Production, Preview, Development).
+- **Después de agregar o cambiar una variable hay que volver a desplegar**: los deploys ya
+  construidos no la ven.
+- No hace falta ningún archivo de configuración: Vercel detecta Next.js solo. El
+  `postinstall: prisma generate` del `package.json` es lo que mantiene sano al cliente de
+  Prisma entre builds cacheados.
+- **Ojo con el plan.** El plan Hobby (gratis) es solo para uso NO comercial, y esto es una
+  tienda que cobra. Para producción real hace falta el plan Pro. Juan Fran lo confirma antes
+  de la fase 7.
+- Vercel ofrece su propia base de datos; **no se usa**. La base es Neon, ya creada.
+- Los deploys de preview son públicos por omisión. Nada sensible debe depender de que una URL
+  de preview no se conozca.
 
 ## Cómo se usa la skill `10k-websites`
 
@@ -48,7 +61,7 @@ La skill está en `.claude/skills/10k-websites/`. **Se usa para el video, no par
 | `references/ffmpeg-recipes.md` | ✅ Sí, para procesar el video |
 | `references/scrub-pipeline.md` | ✅ Sí, la técnica — **adaptada a un componente de React**, no a un script suelto |
 | Fase 8 (construir el sitio en HTML plano) | ❌ **No.** El sitio se construye en Next.js |
-| Fases 10–11 (deploy en Hostinger) | ❌ **No.** El deploy va en **Netlify** |
+| Fases 10–11 (deploy en Hostinger) | ❌ **No.** El deploy va en **Vercel** |
 | `references/deploy.md` | ❌ No existe en el repo, se omitió a propósito. No lo busques |
 
 El scrub de video de la skill es JavaScript sobre un elemento `<video>`: funciona idéntico
@@ -72,13 +85,13 @@ antes de seguir. **No adelantes fases.**
 
 | # | Fase | Qué incluye | Se verifica cuando |
 |---|---|---|---|
-| 1 | **Estructura y catálogo** | Next.js montado, las 4 presentaciones, historia de Raquel, ingredientes, envíos, footer. Sección de héroe **ya construida con sus 4 bandas de scroll**, mostrando una foto fija | Se ve bien en celular y escritorio, desplegada en Netlify |
+| 1 | **Estructura y catálogo** | Next.js montado, las 4 presentaciones, historia de Raquel, ingredientes, envíos, footer. Sección de héroe **ya construida con sus 4 bandas de scroll**, mostrando una foto fija | Se ve bien en celular y escritorio, desplegada en Vercel |
 | 2 | **Frame inicial** (~2 créditos) | Storyboard aprobado + generación de la imagen de arranque del video | Juan Fran ve la imagen y aprueba la dirección visual |
 | 3 | **Carrito y envíos** | Schema de Prisma, seed, carrito, cálculo por zona, barra de envío gratis | Armas un carrito, eliges estado, y el total sale correcto |
 | 4 | **Pagos en prueba** | Checkout Pro con credenciales `TEST-`, webhook, correos | Compra con tarjeta de prueba genera pedido `pagado` y llegan los correos |
 | 5 | **Video y héroe animado** (~54 créditos) | Generación del video, procesado con ffmpeg, scrub ligado al scroll en escritorio **y celular**, sustitución de la foto fija | El héroe se anima con el scroll en escritorio y celular, y la página sigue rápida |
 | 6 | **Panel de pedidos** | `/admin` protegido: lista, detalle, cambio de estado, editar zonas y costos | Marcas un pedido como enviado y el cliente recibe aviso |
-| 7 | **Dominio y producción** | Dominio en Netlify, credenciales `APP_USR-`, SEO, Open Graph, sitemap | Compra real de bajo monto llega a Mercado Pago |
+| 7 | **Dominio y producción** | Dominio en Vercel, plan Pro confirmado, credenciales `APP_USR-`, SEO, Open Graph, sitemap | Compra real de bajo monto llega a Mercado Pago |
 
 **Pendientes obligatorios de la fase 4 (al conectar Mercado Pago):**
 
@@ -96,7 +109,7 @@ antes de seguir. **No adelantes fases.**
       `lib/config-envios.ts` (respaldo) y en la tabla `Configuracion` de Neon.
 - [ ] **Rotar la contraseña de Neon.** La connection string actual pasó por el chat
       durante la construcción; antes de producción se rota en Neon y Juan Fran
-      actualiza las variables en Netlify.
+      actualiza las variables en Vercel.
 
 **Por qué el video va en la fase 5 y no antes:** el video cuesta ~54 créditos y es lo único
 que no se arregla programando. La fase 2 valida la dirección visual por ~2 créditos. Si el
@@ -225,8 +238,8 @@ CONTACTO_WHATSAPP=             # Formato 521 + 10 dígitos, para soporte y foote
 ## Seguridad — innegociable
 
 - `.env.local` en `.gitignore` desde el primer commit. **Nunca** se commitean llaves.
-- Nunca pidas que las llaves se peguen en el chat. Indica en qué pantalla de Netlify ponerlas
-  (Site configuration → Environment variables).
+- Nunca pidas que las llaves se peguen en el chat. Indica en qué pantalla de Vercel ponerlas
+  (Settings → Environment Variables).
 - El `MP_ACCESS_TOKEN` **solo** del lado del servidor. Jamás llega al navegador.
 - Un pedido se marca pagado **únicamente** desde el webhook de Mercado Pago verificando la
   firma. El regreso del navegador a la URL de éxito no es prueba de pago.
@@ -268,4 +281,4 @@ npx prisma studio      # ver la base de datos en el navegador
 npx prisma db seed     # cargar las 4 presentaciones
 ```
 
-**Siempre** corre `npm run build` antes de hacer push. Si falla ahí, falla en Netlify.
+**Siempre** corre `npm run build` antes de hacer push. Si falla ahí, falla en Vercel.

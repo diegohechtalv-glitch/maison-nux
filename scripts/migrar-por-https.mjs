@@ -4,7 +4,7 @@
 // conexiones directas de Postgres (puerto 5432); solo sale por HTTPS. Neon
 // acepta SQL por HTTPS, así que este script aplica cada migration.sql
 // pendiente y la registra en _prisma_migrations con el mismo formato y
-// checksum que usa Prisma. Resultado: en cualquier máquina normal (Netlify,
+// checksum que usa Prisma. Resultado: en cualquier máquina normal (Vercel,
 // la laptop de Juan Fran), `prisma migrate deploy` ve el historial como si
 // Prisma lo hubiera aplicado él mismo.
 //

@@ -55,6 +55,21 @@ export async function POST(req: Request) {
   // pago pendiente o rechazado nunca llega a "pagado".
   const nuevoEstado = decidirEstadoPedido(pago.status, pedido.estado);
 
+  // Fase 6: un reembolso o contracargo sobre un pedido que ya avanzó NO cambia
+  // el estado (decisión de Juan Fran). Solo se anota para que el panel lo
+  // muestre como alerta y él decida qué hacer.
+  if (
+    nuevoEstado === null &&
+    ["refunded", "charged_back", "in_mediation"].includes(pago.status) &&
+    pedido.mpAlerta !== pago.status
+  ) {
+    await prisma.pedido.update({
+      where: { id: pedido.id },
+      data: { mpAlerta: pago.status, mpAlertaEn: new Date() },
+    });
+    return NextResponse.json({ ok: true });
+  }
+
   if (nuevoEstado) {
     await prisma.pedido.update({
       where: { id: pedido.id },

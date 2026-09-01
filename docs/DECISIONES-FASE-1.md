@@ -401,3 +401,60 @@ cumplían y ahora están probadas; de paso apareció un tercer caso roto.
 - **Pendiente para la fase 6 (panel), no ahora:** `refunded` y `charged_back`
   sobre un pedido ya pagado no cambian el estado a propósito. Un reembolso o
   contracargo es una decisión de negocio y se maneja a mano desde el admin.
+
+## Fase 6: panel de pedidos en /admin (2026-09-01)
+
+- **Cuatro pantallas:** `/admin/entrar` (contraseña), `/admin` (lista con
+  filtros Todos/Pagados/Enviados/Fallidos), `/admin/pedidos/[id]` (detalle) y
+  `/admin/envios` (editor de zonas y costos). Barra fija con Pedidos · Envíos ·
+  Salir. Diseñado primero para celular: Juan Fran lo usa empacando.
+- **Cerradura** (`lib/admin-auth.ts`): la contraseña vive en `ADMIN_PASSWORD`
+  (variable de Vercel, nunca en el repo). La sesión es una cookie httpOnly con
+  un token FIRMADO (HMAC-SHA256, 12 h de vida) que **no contiene la
+  contraseña**: si la cookie se filtra, la clave no. La comparación es en
+  tiempo constante y un intento fallido espera 1 segundo. Efecto útil: al
+  cambiar la contraseña, todas las sesiones viejas mueren solas.
+  Si `ADMIN_PASSWORD` falta o mide menos de 8 caracteres, el panel queda
+  **cerrado por completo**, no abierto con clave trivial.
+- **El candado está en cada puerta, no en un filtro general.** Cada page.tsx
+  llama `haySesion()` ANTES de consultar la base, y cada acción de servidor
+  (que es un endpoint POST público) revalida la sesión por su cuenta. No se usó
+  middleware a propósito: un middleware es un solo punto que, si falla, abre
+  todo.
+- **noindex** en el layout del panel. A propósito NO se agregó a `robots.txt`,
+  porque ese archivo es público y ahí se estaría anunciando la dirección.
+- **Campos nuevos en Pedido** (migración `20260901120000_fase6_envio_y_alertas`,
+  aplicada por la vía HTTPS): `paqueteria`, `guia`, `enviadoEn`, `avisoEnvioEn`,
+  `mpAlerta`, `mpAlertaEn`.
+- **El correo de envío sale UNA vez.** La guardia es `avisoEnvioEn`, no el
+  estado: el sello se pone SOLO después de que Resend aceptó el envío, así que
+  un correo caído deja el pedido marcado como enviado pero reintentable. Copy
+  de TEXTOS §9 "Pedido enviado" verbatim; sin paquetería ni guía se quitan
+  ÚNICAMENTE las dos líneas de seguimiento (decisión de Juan Fran).
+  `enviarCorreoDeEnvio` lanza excepción si Resend responde con `error` en el
+  cuerpo: sin eso el panel sellaría como enviado un correo que nunca salió.
+- **Alerta de reembolso/contracargo** (decisión de Juan Fran): el webhook anota
+  `mpAlerta` cuando Mercado Pago reporta `refunded`, `charged_back` o
+  `in_mediation` sobre un pedido que ya avanzó, y el panel lo muestra en la
+  lista y explicado en el detalle. **El estado NO cambia solo.** El bloque
+  nuevo del webhook vive dentro del caso que antes no hacía nada, así que
+  ninguna confirmación de pago se alteró.
+- **Editor de envíos:** escribe la fila `Configuracion` clave "envios" de Neon,
+  la misma que lee el checkout en vivo. Los montos se capturan en PESOS y se
+  guardan en centavos. Avisa en pantalla que los cambios aplican a pedidos
+  nuevos: un pedido ya hecho conserva el envío que se le cobró.
+- **Teléfonos:** el panel los muestra legibles respetando que solo CDMX (55/56),
+  Guadalajara (33) y Monterrey (81) tienen clave de área de dos dígitos; el
+  resto del país la tiene de tres.
+- **Verificado en navegador real:** 43 comprobaciones automatizadas en
+  escritorio (1280) y celular (390), incluyendo que `/admin`,
+  `/admin/pedidos/[id]`, `/admin/envios` y `/admin?estado=` sin cookie mandan a
+  la pantalla de entrar y **no filtran ni un dato de cliente** en el HTML;
+  contraseña equivocada rechazada; filtros que filtran de verdad; noindex
+  presente; todo lo tocable de 44px o más; consola sin errores; y el doble clic
+  en "marcar como enviado" que responde "el aviso ya se había enviado" en vez
+  de mandar el correo dos veces.
+- **Nota del entorno:** este sandbox no puede abrir el puerto de Postgres, así
+  que para las pruebas de navegador se sustituyó `lib/db.ts` por un stub con
+  datos falsos y se restauró antes de commitear. La ruta real contra Neon se
+  ejerce al desplegar en Vercel.

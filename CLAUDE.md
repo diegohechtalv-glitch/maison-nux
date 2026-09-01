@@ -240,7 +240,7 @@ NEXT_PUBLIC_MP_PUBLIC_KEY=     # Mercado Pago
 MP_WEBHOOK_SECRET=             # Firma del webhook
 RESEND_API_KEY=                # Resend
 NEXT_PUBLIC_SITE_URL=          # https://tudominio.com
-ADMIN_PASSWORD=                # Para entrar a /admin
+ADMIN_PASSWORD=                # Para entrar a /admin. 20+ caracteres; con menos de 8 el panel queda cerrado
 CONTACTO_EMAIL=                # A dónde llegan los avisos de pedido nuevo
 CONTACTO_WHATSAPP=             # Formato 521 + 10 dígitos, para soporte y footer
 ```

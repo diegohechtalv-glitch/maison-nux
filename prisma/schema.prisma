@@ -62,6 +62,20 @@ model Pedido {
 
   mpPreferenceId   String?
   mpPaymentId      String?
+  // Fase 6: si Mercado Pago reporta un reembolso o contracargo sobre un pedido
+  // ya pagado, el estado NO cambia solo (decisión de Juan Fran). Se guarda
+  // aquí el status reportado y el panel lo muestra como alerta para que él
+  // decida qué hacer.
+  mpAlerta         String?
+  mpAlertaEn       DateTime?
+
+  // Fase 6: envío. paqueteria y guia son opcionales (un pedido se puede
+  // entregar en mano). avisoEnvioEn es la marca de que el correo YA salió:
+  // es lo que impide mandarlo dos veces si se pica el botón dos veces.
+  paqueteria       String?
+  guia             String?
+  enviadoEn        DateTime?
+  avisoEnvioEn     DateTime?
 
   creadoEn         DateTime     @default(now())
   actualizadoEn    DateTime     @updatedAt

@@ -552,3 +552,462 @@ html.hero-degradado .hero-static { display: block; }
   letter-spacing: 0.14em;
   color: var(--text-secondary);
 }
+
+/* ---------- panel de pedidos (/admin) ----------
+   Diseñado primero para el celular: Juan Fran lo usa empacando, con una mano.
+   Todo lo tocable mide 44px o más de alto. */
+
+.admin {
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--canvas);
+}
+
+.admin-barra {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem clamp(1rem, 4vw, 2rem);
+  background: var(--panel);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.admin-nav {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.admin-nav a,
+.admin-salir {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.admin-nav a:hover,
+.admin-salir:hover {
+  background: var(--canvas);
+}
+
+.admin-salir {
+  border: 1px solid var(--hairline);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.admin-cuerpo {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem) clamp(1rem, 4vw, 2rem) 4rem;
+}
+
+.admin-titulo {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.admin-subtitulo {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem;
+}
+
+.admin-encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-nota {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0.5rem 0;
+}
+
+.admin-vacio {
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+  padding: 2rem 0;
+}
+
+/* --- entrar --- */
+.admin-entrar {
+  max-width: 22rem;
+  margin: 12vh auto 0;
+}
+
+.admin-aviso {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+
+/* --- formularios --- */
+.admin-forma {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 1rem;
+}
+
+.admin-forma .campo {
+  margin-bottom: 0.5rem;
+}
+
+.admin-area {
+  resize: vertical;
+  line-height: 1.5;
+  font-family: var(--font-body);
+}
+
+.admin-btn {
+  align-self: flex-start;
+  min-height: 48px;
+  margin-top: 0.75rem;
+}
+
+.admin-btn[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.admin-error,
+.admin-ok {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  padding: 0.7rem 0.9rem;
+  border-radius: 6px;
+  margin: 0.5rem 0 0;
+}
+
+.admin-error {
+  color: #7d2a1c;
+  background: #f7e6e2;
+  border: 1px solid #e0bcb2;
+}
+
+.admin-ok {
+  color: #2f5133;
+  background: #e6efe4;
+  border: 1px solid #b9cfb6;
+}
+
+/* --- filtros --- */
+.admin-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.admin-filtro {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  background: var(--panel);
+}
+
+.admin-filtro.es-activo {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+  color: var(--canvas);
+}
+
+/* --- lista de pedidos --- */
+.admin-lista {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-fila {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.35rem 0.75rem;
+  min-height: 44px;
+  padding: 0.9rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.admin-fila:hover {
+  border-color: var(--accent-light);
+}
+
+.admin-fila-numero {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.admin-fila-cliente {
+  font-family: var(--font-body);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.admin-fila-total {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.admin-fila-fecha,
+.admin-fila-zona {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.admin-fila-fecha {
+  grid-column: 1;
+}
+
+.admin-fila-zona {
+  grid-column: 2;
+}
+
+.admin-chip {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.admin-chip-pagado {
+  background: #e6efe4;
+  color: #2f5133;
+}
+
+.admin-chip-enviado {
+  background: #e4ecf3;
+  color: #274963;
+}
+
+.admin-chip-entregado {
+  background: #e8e6f1;
+  color: #423a63;
+}
+
+.admin-chip-fallido,
+.admin-chip-cancelado {
+  background: #f7e6e2;
+  color: #7d2a1c;
+}
+
+.admin-chip-pendiente {
+  background: #f6eedd;
+  color: #6b5417;
+}
+
+.admin-chip-alerta {
+  grid-column: 1 / -1;
+  justify-self: start;
+  background: #f4e2c4;
+  color: #6b4713;
+}
+
+@media (min-width: 620px) {
+  .admin-fila {
+    grid-template-columns: 3.5rem 1fr 5rem 8rem auto auto;
+  }
+  .admin-fila-fecha,
+  .admin-fila-zona {
+    grid-column: auto;
+  }
+  .admin-chip-alerta {
+    grid-column: auto;
+    justify-self: end;
+  }
+}
+
+/* --- detalle --- */
+.admin-volver {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.admin-volver:hover {
+  color: var(--accent-deep);
+}
+
+.admin-bloque {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.admin-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+}
+
+.admin-items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.admin-totales {
+  margin: 1rem 0 0;
+  font-family: var(--font-body);
+}
+
+.admin-totales div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.35rem 0;
+}
+
+.admin-totales dt,
+.admin-totales dd {
+  margin: 0;
+}
+
+.admin-totales dd {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+}
+
+.admin-total {
+  font-weight: 500;
+  border-top: 1px solid var(--hairline);
+  margin-top: 0.35rem;
+  padding-top: 0.6rem !important;
+}
+
+.admin-direccion,
+.admin-contacto {
+  font-family: var(--font-body);
+  line-height: 1.7;
+  margin: 0 0 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.admin-contacto a {
+  color: var(--accent-deep);
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+}
+
+.admin-dato-mono {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+
+/* --- alertas --- */
+.admin-alerta {
+  margin: 1.25rem 0;
+  padding: 0.9rem 1.1rem;
+  border-radius: 8px;
+  background: #f4e2c4;
+  border: 1px solid #d9b877;
+  font-family: var(--font-body);
+}
+
+.admin-alerta strong {
+  display: block;
+  color: #6b4713;
+  margin-bottom: 0.3rem;
+}
+
+.admin-alerta p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.admin-alerta-suave {
+  background: var(--panel);
+  border-color: var(--hairline);
+}
+
+.admin-alerta-suave strong {
+  color: var(--text-primary);
+}
+
+/* --- editor de envíos --- */
+.admin-zona {
+  margin: 1.5rem 0 0;
+  padding: 1.1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.admin-zona legend {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 0 0.4rem;
+}
+
+.admin-tramo {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 520px) {
+  .admin-tramo {
+    grid-template-columns: 1fr 1fr;
+  }
+}

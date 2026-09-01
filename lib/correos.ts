@@ -81,3 +81,41 @@ ${pedido.direccion} · ${pedido.zonaNombre}
 Envío: ${envioTexto}`,
   });
 }
+
+// Aviso de que el pedido salió (TEXTOS §9 "Pedido enviado", verbatim).
+// Cuando no hay paquetería ni guía se quitan ÚNICAMENTE las dos líneas de
+// seguimiento; el resto del texto no cambia (decisión de Juan Fran, fase 6).
+export async function enviarCorreoDeEnvio(datos: {
+  numero: number;
+  nombre: string;
+  correo: string;
+  paqueteria: string | null;
+  guia: string | null;
+}): Promise<void> {
+  const clave = process.env.RESEND_API_KEY;
+  if (!clave) return;
+  const resend = new Resend(clave);
+
+  const rastreo =
+    datos.paqueteria || datos.guia
+      ? ` Puedes seguirlo aquí:\n${[datos.paqueteria, datos.guia ? `Guía ${datos.guia}` : null]
+          .filter(Boolean)
+          .join(" · ")}\n`
+      : "\n";
+
+  const { error } = await resend.emails.send({
+    from: remitente(),
+    to: datos.correo,
+    subject: "Tu pedido Maison Nux ya va en camino",
+    text: `Hola ${datos.nombre},
+
+Tu pedido #${datos.numero} salió hoy.${rastreo}
+Recuerda: cuando abras la bolsa, refrigérala. Sin conservadores, la crocancia se cuida así.
+
+— Raquel`,
+  });
+  // Resend responde 200 con un campo error cuando rechaza el envío (por
+  // ejemplo, el destinatario no permitido del remitente de prueba). Sin este
+  // throw, el panel sellaría el aviso como enviado y nunca se reintentaría.
+  if (error) throw new Error(error.message ?? "Resend rechazó el envío");
+}

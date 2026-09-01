@@ -4,6 +4,7 @@ import { productos } from "@/lib/productos";
 import { leerConfigEnvios } from "@/lib/config-envios-server";
 import { calcularEnvio } from "@/lib/envios";
 import { cpCoincideConEstado, esCpValido, estadoDeCp } from "@/lib/codigos-postales";
+import { formatoMXN } from "@/lib/formato";
 
 export const dynamic = "force-dynamic";
 
@@ -75,7 +76,11 @@ export async function POST(req: Request) {
   const config = await leerConfigEnvios();
   const envio = calcularEnvio(config, subtotal, estado, cp);
   if (envio.tipo === "bajo-minimo")
-    return error("El pedido mínimo para envío es de $150.");
+    // El monto sale de la configuración viva: escrito a mano mentiría en
+    // cuanto se cambiara el mínimo desde el panel.
+    return error(
+      `El pedido mínimo para envío es de ${formatoMXN(config.pedidoMinimoCentavos)}.`
+    );
   if (envio.tipo === "cotizar")
     return error(
       "Tu código postal es de zona extendida: escríbenos para cotizar tu envío antes de pagar."

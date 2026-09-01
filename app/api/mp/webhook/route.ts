@@ -59,7 +59,6 @@ export async function POST(req: Request) {
   // el estado (decisión de Juan Fran). Solo se anota para que el panel lo
   // muestre como alerta y él decida qué hacer.
   if (
-    nuevoEstado === null &&
     ["refunded", "charged_back", "in_mediation"].includes(pago.status) &&
     pedido.mpAlerta !== pago.status
   ) {
@@ -67,7 +66,9 @@ export async function POST(req: Request) {
       where: { id: pedido.id },
       data: { mpAlerta: pago.status, mpAlertaEn: new Date() },
     });
-    return NextResponse.json({ ok: true });
+    // NO se corta aquí: si además toca cambiar el estado (un contracargo
+    // sobre un pedido que seguía pendiente lo baja a fallido), eso se aplica
+    // abajo igual que siempre, y encima queda la alerta visible en el panel.
   }
 
   if (nuevoEstado) {

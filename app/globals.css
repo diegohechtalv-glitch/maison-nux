@@ -687,9 +687,20 @@ html.hero-degradado .hero-static { display: block; }
   margin-top: 0.75rem;
 }
 
+/* Nada de opacity: bajaba el texto del botón a 2.66:1. Se usa un color
+   propio que conserva contraste suficiente mientras guarda. */
 .admin-btn[disabled] {
-  opacity: 0.6;
+  background: color-mix(in srgb, var(--accent-deep) 78%, var(--canvas));
   cursor: progress;
+}
+
+/* El borde por omisión de .campo queda en 1.29:1 sobre el crema: dentro del
+   panel, donde se capturan datos a diario, se usa uno que sí se ve. */
+.admin .campo {
+  border-color: color-mix(in srgb, var(--text-secondary) 45%, transparent);
+}
+.admin .campo:focus-visible {
+  border-color: var(--accent-deep);
 }
 
 .admin-error,
@@ -754,9 +765,12 @@ html.hero-degradado .hero-static { display: block; }
 
 .admin-fila {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 0.35rem 0.75rem;
+  /* En celular: dos columnas, el nombre manda y el total se alinea a la
+     derecha. El número va sobre el nombre. Nada se aplasta con nombres
+     largos porque ninguna columna es "auto" compitiendo con el texto. */
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 0.3rem 0.75rem;
   min-height: 44px;
   padding: 0.9rem 1rem;
   background: var(--panel);
@@ -771,6 +785,7 @@ html.hero-degradado .hero-static { display: block; }
 }
 
 .admin-fila-numero {
+  grid-column: 1 / -1;
   font-family: var(--font-mono);
   font-size: 0.85rem;
   color: var(--text-secondary);
@@ -780,6 +795,7 @@ html.hero-degradado .hero-static { display: block; }
   font-family: var(--font-body);
   font-weight: 500;
   overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .admin-fila-total {
@@ -795,16 +811,14 @@ html.hero-degradado .hero-static { display: block; }
   color: var(--text-secondary);
 }
 
-.admin-fila-fecha {
-  grid-column: 1;
-}
-
+.admin-fila-fecha,
 .admin-fila-zona {
-  grid-column: 2;
+  grid-column: 1 / -1;
 }
 
 .admin-chip {
-  justify-self: end;
+  justify-self: start;
+  grid-column: 1 / -1;
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.7rem;
@@ -851,15 +865,24 @@ html.hero-degradado .hero-static { display: block; }
 
 @media (min-width: 620px) {
   .admin-fila {
-    grid-template-columns: 3.5rem 1fr 5rem 8rem auto auto;
+    grid-template-columns: 3.5rem minmax(0, 1fr) 5rem 8rem 7rem auto;
+    align-items: center;
   }
+  .admin-fila-numero,
   .admin-fila-fecha,
-  .admin-fila-zona {
+  .admin-fila-zona,
+  .admin-chip {
     grid-column: auto;
   }
-  .admin-chip-alerta {
-    grid-column: auto;
+  .admin-chip {
     justify-self: end;
+  }
+  /* La alerta va en su propio renglón completo para que nunca se apriete
+     contra el chip de estado ni se salga de su columna. */
+  .admin-chip-alerta {
+    grid-column: 2 / -1;
+    justify-self: start;
+    margin-top: 0.35rem;
   }
 }
 
@@ -936,11 +959,18 @@ html.hero-degradado .hero-static { display: block; }
   overflow-wrap: anywhere;
 }
 
+.admin-contacto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
 .admin-contacto a {
   color: var(--accent-deep);
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
+  min-height: 44px;
 }
 
 .admin-dato-mono {

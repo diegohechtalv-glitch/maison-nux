@@ -100,7 +100,6 @@ export default async function DetallePedido({
           <a href={`https://wa.me/${pedido.telefono}`} rel="noreferrer">
             {telefonoLegible(pedido.telefono)}
           </a>
-          <br />
           <a href={`mailto:${pedido.correo}`}>{pedido.correo}</a>
         </p>
       </section>

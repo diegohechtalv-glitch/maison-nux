@@ -93,15 +93,19 @@ export async function enviarCorreoDeEnvio(datos: {
   guia: string | null;
 }): Promise<void> {
   const clave = process.env.RESEND_API_KEY;
-  if (!clave) return;
+  // A diferencia de los correos de pago, aquí NO se puede fallar en silencio:
+  // el panel sellaría el aviso como enviado y el cliente nunca sabría nada.
+  if (!clave) throw new Error("Falta RESEND_API_KEY: el correo no se mandó");
   const resend = new Resend(clave);
 
-  const rastreo =
-    datos.paqueteria || datos.guia
-      ? ` Puedes seguirlo aquí:\n${[datos.paqueteria, datos.guia ? `Guía ${datos.guia}` : null]
-          .filter(Boolean)
-          .join(" · ")}\n`
-      : "\n";
+  // Las dos líneas de seguimiento solo aparecen si hay guía: prometer
+  // "puedes seguirlo aquí" con el nombre de la paquetería y ningún número no
+  // le sirve de nada al cliente.
+  const rastreo = datos.guia
+    ? ` Puedes seguirlo aquí:\n${[datos.paqueteria, `Guía ${datos.guia}`]
+        .filter(Boolean)
+        .join(" · ")}\n`
+    : "\n";
 
   const { error } = await resend.emails.send({
     from: remitente(),

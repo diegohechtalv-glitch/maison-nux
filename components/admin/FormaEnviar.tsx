@@ -70,7 +70,6 @@ export default function FormaEnviar({
         name="guia"
         className="campo"
         defaultValue={guia ?? ""}
-        inputMode="numeric"
         autoComplete="off"
       />
 

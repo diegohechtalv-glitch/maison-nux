@@ -458,3 +458,78 @@ cumplían y ahora están probadas; de paso apareció un tercer caso roto.
   que para las pruebas de navegador se sustituyó `lib/db.ts` por un stub con
   datos falsos y se restauró antes de commitear. La ruta real contra Neon se
   ejerce al desplegar en Vercel.
+
+### Revisión adversarial del panel y arreglos (2026-09-01)
+
+Seis revisores independientes (auth, fuga de PII, flujo de envío, editor de
+configuración, regresión de pagos, móvil/accesibilidad) más un verificador por
+hallazgo que intentaba refutarlo: 33 hallazgos, 22 confirmados, 11 refutados.
+
+**El grave, que las pruebas de navegador no habían cachado:** el editor de
+envíos **nunca guardaba**. La zona extendida tiene `estados: []` a propósito
+(se decide por código postal, no por estado), y la validación lo trataba como
+"zona sin estados" y abortaba antes del upsert. Guardar sin tocar nada fallaba
+siempre. Peor aún, el camino natural para desatorarse (escribir un estado real
+en esa caja) habría mandado ese estado entero a la zona extendida, donde el
+envío es "cotizar" y el checkout bloquea la compra. La lección para el futuro:
+la prueba cargaba la pantalla del editor pero nunca enviaba el formulario.
+
+Arreglado también, todo verificado con 23 comprobaciones nuevas en navegador:
+
+- **Montos:** se valida la FORMA, no solo el resultado. `"90,50"` (coma
+  decimal, costumbre al copiar de una cotización) se guardaba como $9,050;
+  ahora se rechaza, igual que `1e3` y `0x10`, que `Number()` aceptaba. Topes
+  de cordura: $5,000 de envío y $2,000 de pedido mínimo.
+- **Estados:** se cotejan contra `ESTADOS_MEXICO`, la misma lista del selector
+  del carrito. Un "Michoacan" sin acento sacaba al estado de su zona en
+  silencio y le subía el envío a todos sus clientes. También se rechaza el
+  mismo estado en dos zonas.
+- **Huecos de tarifa:** si el primer tramo de una zona empieza por encima del
+  pedido mínimo, hay carritos válidos sin tarifa que el checkout rechazaría
+  pidiendo cotizar. Ahora no deja guardar. Igual con dos tramos que empiezan
+  en el mismo monto.
+- **Códigos postales:** los inválidos ya no se descartan callados; se nombran.
+- **Zona extendida:** no se le puede poner envío gratis (regla de CLAUDE.md).
+- **Doble correo:** la guardia leía y escribía en dos pasos, así que dos clics
+  simultáneos (dos pestañas) mandaban dos correos. Ahora el derecho a mandarlo
+  se RECLAMA con una escritura condicional atómica (`updateMany` con
+  `avisoEnvioEn: null`), y el cambio de estado también es condicional, así que
+  un pedido que dejó de estar pagado entre la lectura y la escritura no se pisa.
+- **Correo sin llave:** sin `RESEND_API_KEY` la función salía en silencio y el
+  panel sellaba el aviso como enviado. Ahora lanza excepción, el sello se
+  libera y el aviso queda reintentable. El motivo del fallo se muestra en el
+  panel.
+- **Copy:** las dos líneas de seguimiento solo salen si hay guía. Con
+  paquetería pero sin número, "puedes seguirlo aquí: Estafeta" no le sirve a
+  nadie.
+- **Cookie de sesión:** firmaba con la contraseña cruda, así que la cookie era
+  un par (mensaje conocido, firma) del que se podía adivinar la contraseña
+  offline a mil millones de intentos por segundo. Ahora la clave se deriva con
+  `scrypt`, y cada intento cuesta ~100 ms. Se conserva que cambiar la
+  contraseña mate las sesiones viejas.
+- **Fuerza bruta:** la espera de 1 s no frenaba nada (las peticiones corren en
+  paralelo en Vercel). Ahora hay un contador persistido en la tabla
+  `Configuracion`: 8 fallos en 15 minutos bloquean el intento sin comparar. Si
+  la base no responde falla del lado permisivo (la contraseña sigue siendo
+  obligatoria) para no dejar a Juan Fran fuera de su panel por un hipo de Neon.
+- **Alerta de contracargo:** exigía `nuevoEstado === null`, así que un
+  contracargo sobre un pedido que seguía `pendiente` lo bajaba a `fallido` sin
+  dejar alerta: idéntico a una tarjeta rechazada normal, sin señal de que hubo
+  dinero cobrado y devuelto. Ahora la alerta se registra siempre y el estado se
+  aplica igual que antes.
+- **Guía con letras:** el campo forzaba teclado numérico; muchas guías traen
+  letras.
+- **Móvil:** la retícula del renglón aplastaba el nombre a ~68px y el chip de
+  alerta se salía de su columna arriba de 620px. Rehecha.
+- **Contraste:** el borde de los campos estaba en 1.29:1 y el texto del botón
+  mientras guarda en 2.66:1 (por el `opacity`). Corregidos dentro del panel.
+- **Toque:** teléfono y correo del cliente eran áreas de 32px pegadas; ahora
+  44px y separadas.
+- **Mensaje del checkout:** decía "$150" escrito a mano y habría mentido en
+  cuanto se cambiara el mínimo desde el panel. Ahora sale de la configuración
+  viva. Es el único cambio al checkout, y solo en el texto de un error.
+
+**Refutado y NO cambiado, a propósito:** `enviarCorreosDePago` (el correo del
+pago) tampoco mira el campo `error` de Resend, pero el webhook se traga
+cualquier excepción de correo por diseño, así que arreglarlo no cambiaría nada
+observable y sí tocaría el flujo de pagos que ya funciona. Queda anotado.

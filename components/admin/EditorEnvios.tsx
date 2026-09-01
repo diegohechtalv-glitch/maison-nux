@@ -39,7 +39,11 @@ export default function EditorEnvios({ config }: { config: ConfigEnvios }) {
         <fieldset key={zona.id} className="admin-zona">
           <legend>{zona.nombre}</legend>
 
-          {zona.estados === "resto" ? (
+          {zona.codigosPostales !== undefined ? (
+            <p className="admin-nota">
+              Esta zona se decide por código postal, no por estado.
+            </p>
+          ) : zona.estados === "resto" ? (
             <p className="admin-nota">
               Esta zona cubre todos los estados que no estén en otra zona.
             </p>

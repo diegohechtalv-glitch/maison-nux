@@ -350,3 +350,54 @@ fases siguientes no las reabran.
 - **Pendiente al desplegar:** actualizar el `notification_url` del webhook en
   el panel de Mercado Pago a la URL nueva de Vercel, o los pagos dejan de
   confirmarse.
+
+## Fase 4 en Vercel: webhook confirmado y hallazgo de Resend (2026-09-01)
+
+- **El webhook funciona en Vercel.** Compra de prueba tras el redeploy: pago
+  aprobado, pedido #4 marcado `pagado` por el webhook con
+  `mpPaymentId = 1351238089`, y el aviso interno "Pedido nuevo #4" entregado.
+  Que ese correo salga es la prueba de que la notificación de Mercado Pago
+  llega y de que la firma HMAC valida: los correos viven detrás de esa puerta.
+- **HALLAZGO DE RESEND, NO ES UN BUG DEL CÓDIGO.** El correo de confirmación
+  al comprador no llega, y no hay nada que arreglar en el repo. Con el
+  remitente de prueba `onboarding@resend.dev` (sin dominio verificado), Resend
+  **solo entrega al correo dueño de la cuenta de Resend** y rechaza a cualquier
+  otro destinatario con "You can only send testing emails to your own email
+  address". Por eso el aviso interno llegó (va a CONTACTO_EMAIL, que es esa
+  misma dirección) y el del cliente no. **No lo diagnostiques como falla de
+  `lib/correos.ts` ni del webhook.** Se resuelve en la fase 7 verificando el
+  dominio y poniendo `CORREO_REMITENTE`; quedó como candado en CLAUDE.md.
+- **Estado de los pedidos de prueba:** #1 ($1,090), #2 ($720), #3 ($770) y #4
+  ($770), los cuatro `pagado`, los cuatro con su `mpPaymentId`, todos zona
+  Occidente / Jalisco y con credenciales `TEST-`. Es basura de construcción:
+  borrarlos es candado de la fase 7.
+
+### Camino del pago rechazado: revisado y corregido
+
+Revisión del webhook a petición de Juan Fran. Las dos garantías que pidió ya se
+cumplían y ahora están probadas; de paso apareció un tercer caso roto.
+
+- **Un pago rechazado nunca marca pagado.** `pagado` sale exclusivamente de
+  `status === "approved"`. `rejected`, `cancelled` y `charged_back` mueven el
+  pedido a `fallido`, y `pending`, `in_process` y `authorized` no lo mueven.
+- **Un pago rechazado no dispara correos.** El envío está dentro de
+  `if (nuevoEstado === "pagado")`, así que ningún otro camino lo alcanza.
+- **BUG ENCONTRADO Y ARREGLADO: reintento exitoso tras un rechazo.** La
+  condición era `if (nuevoEstado && pedido.estado === "pendiente")`. Si el
+  cliente pagaba, era rechazado (pedido → `fallido`) y **reintentaba con otra
+  tarjeta dentro del mismo checkout**, el pago aprobado llegaba con el pedido
+  ya en `fallido`: no entraba a la rama, el pedido se quedaba `fallido` para
+  siempre y no salía ningún correo. Dinero cobrado, pedido invisible para Juan
+  Fran y el cliente viendo "El pago no se completó". Ahora un `approved`
+  confirma también desde `fallido`.
+- **La tabla de decisión se extrajo a `decidirEstadoPedido()` en `lib/mp.ts`**
+  (función pura) para poder probarla sin llamar a Mercado Pago. 16 casos
+  verificados, incluidos: rechazo posterior NO tumba un pedido pagado, segundo
+  aviso del mismo pago no repite correos, y un pedido `enviado`/`entregado`/
+  `cancelado` no lo toca ningún webhook.
+- **El flujo que ya funcionaba no cambió:** `pendiente` + `approved` → `pagado`
+  + correos, idéntico. Se eliminó una rama muerta que solo guardaba el
+  `mpPaymentId` de un pago rechazado sobre un pedido ya avanzado.
+- **Pendiente para la fase 6 (panel), no ahora:** `refunded` y `charged_back`
+  sobre un pedido ya pagado no cambian el estado a propósito. Un reembolso o
+  contracargo es una decisión de negocio y se maneja a mano desde el admin.

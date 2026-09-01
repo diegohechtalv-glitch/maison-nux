@@ -65,6 +65,32 @@ export async function crearPreferencia(input: {
   return { id: datos.id, init_point: datos.init_point };
 }
 
+// Decide a qué estado mueve un pago de Mercado Pago a un pedido, según el
+// estado en el que el pedido está AHORA. Devuelve null cuando no hay nada que
+// tocar. Es una función pura para poder probarla sin llamar a nadie.
+export function decidirEstadoPedido(
+  statusMP: string,
+  estadoActual: string
+): "pagado" | "fallido" | null {
+  if (statusMP === "approved") {
+    // Un pago aprobado confirma el pedido aunque un intento anterior lo haya
+    // dejado en fallido: dentro del mismo checkout el cliente puede reintentar
+    // con otra tarjeta. Un pedido que ya avanzó (pagado, enviado, entregado,
+    // cancelado) no se toca.
+    return estadoActual === "pendiente" || estadoActual === "fallido"
+      ? "pagado"
+      : null;
+  }
+  if (["rejected", "cancelled", "charged_back"].includes(statusMP)) {
+    // Solo un pedido que todavía espera pago puede caer a fallido. Un pedido
+    // ya pagado JAMÁS retrocede por un intento posterior rechazado.
+    return estadoActual === "pendiente" ? "fallido" : null;
+  }
+  // pending, in_process, authorized, refunded, in_mediation: no se toca nada.
+  // El pedido se queda como está y no sale ningún correo.
+  return null;
+}
+
 export async function obtenerPago(paymentId: string): Promise<{
   status: string;
   external_reference?: string;

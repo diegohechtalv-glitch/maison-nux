@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { obtenerPago, verificarFirmaWebhook } from "@/lib/mp";
+import { decidirEstadoPedido, obtenerPago, verificarFirmaWebhook } from "@/lib/mp";
 import { enviarCorreosDePago } from "@/lib/correos";
 import { leerConfigEnvios } from "@/lib/config-envios-server";
 
@@ -50,15 +50,12 @@ export async function POST(req: Request) {
   });
   if (!pedido) return NextResponse.json({ ok: true });
 
-  const nuevoEstado =
-    pago.status === "approved"
-      ? "pagado"
-      : ["rejected", "cancelled", "charged_back"].includes(pago.status)
-        ? "fallido"
-        : null;
+  // La tabla de decisión vive en lib/mp.ts para poder probarla aparte.
+  // Idempotente: un pedido ya pagado no retrocede ni reenvía correos, y un
+  // pago pendiente o rechazado nunca llega a "pagado".
+  const nuevoEstado = decidirEstadoPedido(pago.status, pedido.estado);
 
-  // Idempotente: un pedido ya pagado no retrocede ni reenvía correos.
-  if (nuevoEstado && pedido.estado === "pendiente") {
+  if (nuevoEstado) {
     await prisma.pedido.update({
       where: { id: pedido.id },
       data: { estado: nuevoEstado, mpPaymentId: dataId },
@@ -82,11 +79,6 @@ export async function POST(req: Request) {
         // Un correo caído nunca tumba la confirmación del pago.
       }
     }
-  } else if (nuevoEstado && pedido.estado !== nuevoEstado && !pedido.mpPaymentId) {
-    await prisma.pedido.update({
-      where: { id: pedido.id },
-      data: { mpPaymentId: dataId },
-    });
   }
 
   return NextResponse.json({ ok: true });

@@ -110,6 +110,16 @@ antes de seguir. **No adelantes fases.**
 - [ ] **Rotar la contraseña de Neon.** La connection string actual pasó por el chat
       durante la construcción; antes de producción se rota en Neon y Juan Fran
       actualiza las variables en Vercel.
+- [ ] **Verificar el dominio en Resend y cambiar el remitente.** Mientras se use
+      `onboarding@resend.dev`, Resend SOLO entrega al correo dueño de la cuenta de
+      Resend y rechaza a cualquier otro destinatario ("You can only send testing
+      emails to your own email address"): el comprador nunca recibe su confirmación.
+      Con el dominio verificado se pone `CORREO_REMITENTE=pedidos@midominio.com`.
+- [ ] **Limpiar los pedidos de prueba de la base de datos.** Los pedidos #1 a #4
+      (y los que se generen probando) son basura de construcción hecha con
+      credenciales `TEST-`. Se borran ellos y sus `PedidoItem` antes de vender.
+      Ojo: el contador `numero` es un SERIAL, así que si se quiere que el primer
+      pedido real sea el #1 hay que reiniciar la secuencia.
 
 **Por qué el video va en la fase 5 y no antes:** el video cuesta ~54 créditos y es lo único
 que no se arregla programando. La fase 2 valida la dirección visual por ~2 créditos. Si el

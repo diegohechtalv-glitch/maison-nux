@@ -533,3 +533,42 @@ Arreglado también, todo verificado con 23 comprobaciones nuevas en navegador:
 pago) tampoco mira el campo `error` de Resend, pero el webhook se traga
 cualquier excepción de correo por diseño, así que arreglarlo no cambiaría nada
 observable y sí tocaría el flujo de pagos que ya funciona. Queda anotado.
+
+### Barra fija de guardado en el editor de envíos (2026-09-02)
+
+Juan Fran reportó que no encontraba el botón: vivía al fondo de tres bloques
+de zonas y en celular se perdía de vista. **No era un error suyo, era un
+problema de diseño:** un formulario largo con un único botón al final y ninguna
+señal de que había cambios pendientes.
+
+- **Barra fija abajo** (`.admin-barra-guardar`), pegada a la pantalla, con el
+  botón dentro. Aparece solo cuando de verdad hay algo que guardar y desaparece
+  sola si se deshace el cambio: el estado "sucio" se calcula comparando un
+  retrato del `FormData` contra el de partida, no con un simple "tocó una
+  tecla".
+- **Triple función:** avisa de cambios pendientes, muestra "Guardando…"
+  mientras trabaja, y se convierte en la confirmación verde al terminar (o roja
+  con el error). La confirmación queda pegada abajo, imposible de no ver, y el
+  punto de partida se reajusta a lo guardado.
+- **Aviso al salir, por tres caminos**, porque uno solo no basta:
+  `beforeunload` para cerrar o recargar; captura de clics en enlaces para la
+  navegación interna de Next (que no recarga la página y por eso `beforeunload`
+  no la alcanza); y captura de `submit` para el botón "Salir", que es un
+  formulario, no un enlace.
+- El formulario lleva `padding-bottom` para que la barra no tape el último
+  campo. Medido: 158px de holgura en celular.
+- Verificado con 33 comprobaciones en navegador (celular y escritorio).
+
+**Falsa alarma del payment_id.** Juan Fran vio 1351238067 y lo comparó contra
+el 1351238089 del pedido #4. Los dos números son correctos: 1351238067 es del
+pedido **#3**. Se prestan a confusión porque #3 y #4 son **ambos de $770** y el
+#3 se acababa de marcar como enviado. Comprobado en la base (cada pedido tiene
+su propio pago) y en navegador: los 5 pedidos muestran su payment_id correcto
+entrando por URL directa, entrando desde la lista, y saltando del #3 al #4
+seguido, que es donde se vería una caché sucia. No hay cruce de datos.
+
+**Nota de método:** dos "fallos" de esta ronda resultaron ser errores de mis
+propias pruebas, no del panel: un selector que agarraba el botón "Salir" en vez
+del del formulario, y una medición hecha a media animación porque la página usa
+scroll suave (`scroll-behavior: smooth`). Conviene medir con
+`behavior: "instant"` y esperar a que asiente.

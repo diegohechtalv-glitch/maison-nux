@@ -90,7 +90,7 @@ antes de seguir. **No adelantes fases.**
 | 3 | **Carrito y envíos** | Schema de Prisma, seed, carrito, cálculo por zona, barra de envío gratis | Armas un carrito, eliges estado, y el total sale correcto |
 | 4 | **Pagos en prueba** | Checkout Pro con credenciales `TEST-`, webhook, correos | Compra con tarjeta de prueba genera pedido `pagado` y llegan los correos |
 | 5 | **Video y héroe animado** (~54 créditos) | Generación del video, procesado con ffmpeg, scrub ligado al scroll en escritorio **y celular**, sustitución de la foto fija | El héroe se anima con el scroll en escritorio y celular, y la página sigue rápida |
-| 6 | **Panel de pedidos** | `/admin` protegido: lista, detalle, cambio de estado, editar zonas y costos | Marcas un pedido como enviado y el cliente recibe aviso |
+| 6 | **Panel de pedidos** ✅ | `/admin` protegido: lista, detalle, cambio de estado, editar zonas y costos | ✅ Cerrada 2026-09-02. Verificado en producción: pedido #5 marcado como enviado y aviso entregado |
 | 7 | **Dominio y producción** | Dominio en Vercel, plan Pro confirmado, credenciales `APP_USR-`, SEO, Open Graph, sitemap | Compra real de bajo monto llega a Mercado Pago |
 
 **Pendientes obligatorios de la fase 4 (al conectar Mercado Pago):**
@@ -115,11 +115,28 @@ antes de seguir. **No adelantes fases.**
       Resend y rechaza a cualquier otro destinatario ("You can only send testing
       emails to your own email address"): el comprador nunca recibe su confirmación.
       Con el dominio verificado se pone `CORREO_REMITENTE=pedidos@midominio.com`.
-- [ ] **Limpiar los pedidos de prueba de la base de datos.** Los pedidos #1 a #4
+- [ ] **Limpiar los pedidos de prueba de la base de datos.** Los pedidos #1 a #6
       (y los que se generen probando) son basura de construcción hecha con
       credenciales `TEST-`. Se borran ellos y sus `PedidoItem` antes de vender.
       Ojo: el contador `numero` es un SERIAL, así que si se quiere que el primer
       pedido real sea el #1 hay que reiniciar la secuencia.
+- [ ] **APAGAR EL SITIO VIEJO DE NETLIFY.** `gleaming-torte-365640.netlify.app`
+      sigue en línea sirviendo una copia de la tienda de la fase 4 (sin video ni
+      panel), y **su checkout y su webhook siguen conectados a la misma base de
+      Neon y a Mercado Pago**: alguien podría comprar ahí. Además compite en
+      Google con el sitio real por contenido duplicado. Se borra el sitio en
+      Netlify, o como mínimo se le quitan las variables de entorno y se
+      desconecta el repo.
+- [ ] **Confirmar el plan Pro de Vercel.** El plan Hobby es solo para uso NO
+      comercial y esto es una tienda que cobra.
+- [ ] **Datos de negocio que todavía faltan:** WhatsApp y correo de contacto
+      definitivos, Instagram, información nutrimental, tiempos de entrega reales
+      por paquetería, páginas legales (aviso de privacidad, términos), y la
+      lista real de códigos postales de zona extendida.
+- [ ] **Pendiente técnico anotado:** `enviarCorreosDePago` (el correo del pago)
+      no mira el campo `error` de Resend. Hoy no cambia nada porque el webhook
+      se traga cualquier excepción de correo por diseño, pero al verificar el
+      dominio conviene revisarlo junto con el resto del envío de correos.
 
 **Por qué el video va en la fase 5 y no antes:** el video cuesta ~54 créditos y es lo único
 que no se arregla programando. La fase 2 valida la dirección visual por ~2 créditos. Si el

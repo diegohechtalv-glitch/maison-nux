@@ -572,3 +572,56 @@ propias pruebas, no del panel: un selector que agarraba el botón "Salir" en vez
 del del formulario, y una medición hecha a media animación porque la página usa
 scroll suave (`scroll-behavior: smooth`). Conviene medir con
 `behavior: "instant"` y esperar a que asiente.
+
+## Fase 6 CERRADA (2026-09-02)
+
+Juan Fran aprobó el panel. Verificación final hecha contra **producción**
+(`maison-nux.vercel.app`), no solo en local:
+
+- `/admin` sin cookie responde 307 y manda a `/admin/entrar`.
+- El HTML servido sin contraseña no contiene ni un dato de cliente (se buscaron
+  nombres, direcciones, correos y payment_id).
+- La etiqueta `noindex, nofollow, nocache` está presente.
+- La pantalla pide contraseña (no dice "todavía no está configurada"), así que
+  `ADMIN_PASSWORD` está puesta en Vercel.
+- El video de la fase 5 se sirve bien (3.2 MB de WebM): la fase 5, que quedó
+  commiteada pero sin publicar por los créditos agotados de Netlify, ya está
+  en línea.
+
+**El candado de la fase 6 se cumplió:** el pedido #5 se marcó como enviado y
+el aviso al cliente salió (`avisoEnvioEn` sellado en la base).
+
+**Y el camino de fallo también quedó demostrado en producción**, sin querer:
+el pedido #3 está `enviado`, con paquetería y guía capturadas, pero
+`avisoEnvioEn` en null. Es exactamente el comportamiento nuevo funcionando:
+Resend rechazó al destinatario (no es el correo dueño de la cuenta), el panel
+liberó el sello y el aviso quedó reintentable en vez de darse por enviado.
+Con el código viejo ese pedido habría quedado marcado como avisado para
+siempre y el cliente nunca se habría enterado.
+
+### HALLAZGO: el sitio viejo de Netlify sigue vivo y es una tienda funcional
+
+`gleaming-torte-365640.netlify.app` responde 200 y sirve una copia de la
+tienda de la fase 4 (sin video ni panel: `/video/*` y `/admin` dan 404).
+Lo importante es que **no es una cáscara muerta**:
+
+- `POST /api/checkout` responde 400 con validación real, no 503. Es decir,
+  todavía tiene `MP_ACCESS_TOKEN` y `NEXT_PUBLIC_SITE_URL` configuradas.
+- `POST /api/mp/webhook` responde 401 "firma inválida", no 503: todavía tiene
+  `MP_WEBHOOK_SECRET`.
+
+O sea que apunta a la misma base de Neon y a la misma cuenta de Mercado Pago:
+alguien que llegue ahí puede comprar de verdad, y el pedido caería en la misma
+base sin que el sitio bueno lo sepa. (El pedido #6 en estado `pendiente`, que
+apareció sin que nadie lo reportara, bien pudo salir de ahí.) Además compite
+en Google con el sitio real por contenido duplicado.
+
+Anotado como candado de la fase 7: **apagar o borrar el sitio de Netlify**, o
+como mínimo quitarle las variables de entorno y desconectar el repositorio.
+
+### Estado de la base al cerrar la fase 6
+
+Seis pedidos de prueba (#1 a #6) y dos filas de configuración: `envios` y
+`admin_intentos` (esta última la crea el freno de contraseña de la fase 6).
+Al limpiar en la fase 7 hay que borrar los seis pedidos y sus `PedidoItem`;
+la fila `admin_intentos` puede quedarse, se limpia sola.

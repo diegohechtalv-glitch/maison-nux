@@ -5,6 +5,7 @@ import { leerConfigEnvios } from "@/lib/config-envios-server";
 import { calcularEnvio } from "@/lib/envios";
 import { cpCoincideConEstado, esCpValido, estadoDeCp } from "@/lib/codigos-postales";
 import { formatoMXN } from "@/lib/formato";
+import { sitioUrl } from "@/lib/sitio";
 
 export const dynamic = "force-dynamic";
 
@@ -87,10 +88,10 @@ export async function POST(req: Request) {
     );
   const envioCentavos = envio.tipo === "gratis" ? 0 : envio.costoCentavos;
 
-  // Se limpia la diagonal final por si la variable quedó como
-  // "https://tudominio.com/": sin esto, las URLs de regreso y del webhook
-  // salen con doble diagonal y Mercado Pago apunta a páginas rotas.
-  const sitio = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "");
+  // sitioUrl() ya devuelve la dirección sin diagonal final: pegarle "/algo" a
+  // una que termine en "/" produce "//algo", que fue lo que rompió la página
+  // de gracias tras la primera compra.
+  const sitio = process.env.NEXT_PUBLIC_SITE_URL ? sitioUrl() : null;
   if (!sitio || !process.env.MP_ACCESS_TOKEN) {
     return error(
       "El pago en línea aún no está configurado. Intenta más tarde.",

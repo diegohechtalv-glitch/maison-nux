@@ -46,17 +46,5 @@ export function fechaLarga(d: Date): string {
   return fechaHora.format(d);
 }
 
-// 521XXXXXXXXXX -> "33 1234 5678" o "656 123 4567", según la clave de área.
-// En México solo CDMX (55), Guadalajara (33) y Monterrey (81) tienen clave de
-// dos dígitos; el resto del país la tiene de tres.
-const LADAS_DE_DOS = ["55", "56", "33", "81"];
-
-export function telefonoLegible(tel: string): string {
-  const d = tel.replace(/\D/g, "");
-  const diez = d.startsWith("521") ? d.slice(3) : d;
-  if (diez.length !== 10) return tel;
-  if (LADAS_DE_DOS.includes(diez.slice(0, 2))) {
-    return `${diez.slice(0, 2)} ${diez.slice(2, 6)} ${diez.slice(6)}`;
-  }
-  return `${diez.slice(0, 3)} ${diez.slice(3, 6)} ${diez.slice(6)}`;
-}
+// telefonoLegible vive en lib/formato.ts: la usan el panel y el footer.
+export { telefonoLegible } from "./formato";

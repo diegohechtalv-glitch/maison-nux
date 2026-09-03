@@ -1,4 +1,5 @@
 import TituloSeccion from "@/components/ui/TituloSeccion";
+import { CONTACTO } from "@/lib/contacto";
 
 // Solo estas cinco (design package §6.6). La de pagos entra en la fase 4,
 // las que dependen de datos pendientes entran cuando existan.
@@ -21,7 +22,22 @@ const preguntas = [
   },
   {
     q: "¿Hacen pedidos grandes o para empresa?",
-    a: "Sí, contáctanos por WhatsApp para darte más información.",
+    // Texto aprobado, verbatim. Solo se vuelve enlazable la palabra WhatsApp
+    // para que se pueda escribir con un toque desde el celular.
+    a: (
+      <>
+        Sí, contáctanos por{" "}
+        <a
+          className="underline underline-offset-2 hover:text-accent-deep"
+          href={CONTACTO.whatsappLink}
+          target="_blank"
+          rel="noreferrer"
+        >
+          WhatsApp
+        </a>{" "}
+        para darte más información.
+      </>
+    ),
   },
 ];
 

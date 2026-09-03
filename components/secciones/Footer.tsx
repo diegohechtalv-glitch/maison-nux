@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/img/logo-maison-nux.png";
+import { CONTACTO } from "@/lib/contacto";
 
-// Columnas según TEXTOS §7. La columna Legal y la línea de contacto entran
-// cuando existan los textos legales y los datos (WhatsApp, correo, Instagram).
+// Columnas y línea de contacto según TEXTOS §7. La columna Legal entra cuando
+// existan las páginas legales.
 export default function Footer() {
   return (
     <footer className="border-t border-(--hairline) bg-panel">
@@ -18,19 +19,19 @@ export default function Footer() {
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-accent-deep">
             Tienda
           </p>
-          <ul className="mt-4 space-y-2.5 text-sm">
+          <ul className="mt-2 text-sm">
             <li>
-              <a className="hover:text-accent-deep" href="/#presentaciones">
+              <a className="inline-flex min-h-11 items-center hover:text-accent-deep" href="/#presentaciones">
                 Presentaciones
               </a>
             </li>
             <li>
-              <Link className="hover:text-accent-deep" href="/envios">
+              <Link className="inline-flex min-h-11 items-center hover:text-accent-deep" href="/envios">
                 Envíos
               </Link>
             </li>
             <li>
-              <a className="hover:text-accent-deep" href="/#preguntas">
+              <a className="inline-flex min-h-11 items-center hover:text-accent-deep" href="/#preguntas">
                 Preguntas frecuentes
               </a>
             </li>
@@ -40,14 +41,53 @@ export default function Footer() {
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-accent-deep">
             Nosotros
           </p>
-          <ul className="mt-4 space-y-2.5 text-sm">
+          <ul className="mt-2 text-sm">
             <li>
-              <Link className="hover:text-accent-deep" href="/historia">
+              <Link className="inline-flex min-h-11 items-center hover:text-accent-deep" href="/historia">
                 La historia
               </Link>
             </li>
+            <li>
+              <a
+                className="inline-flex min-h-11 items-center hover:text-accent-deep"
+                href={CONTACTO.whatsappLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Contacto
+              </a>
+            </li>
           </ul>
         </nav>
+      </div>
+
+      <div className="border-t border-(--hairline)">
+        <p className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-3 gap-y-2 px-6 py-5 text-center text-sm text-text-secondary">
+          <a
+            className="inline-flex min-h-11 items-center hover:text-accent-deep"
+            href={CONTACTO.whatsappLink}
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp {CONTACTO.whatsappLegible}
+          </a>
+          <span aria-hidden="true">·</span>
+          <a
+            className="inline-flex min-h-11 items-center hover:text-accent-deep"
+            href={`mailto:${CONTACTO.correo}`}
+          >
+            {CONTACTO.correo}
+          </a>
+          <span aria-hidden="true">·</span>
+          <a
+            className="inline-flex min-h-11 items-center hover:text-accent-deep"
+            href={CONTACTO.instagramLink}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram @{CONTACTO.instagramUsuario}
+          </a>
+        </p>
       </div>
       <div className="border-t border-(--hairline)">
         <p className="mx-auto max-w-6xl px-6 py-6 text-center text-sm text-text-secondary">

@@ -10,10 +10,12 @@ import Envios from "@/components/secciones/Envios";
 import Faq from "@/components/secciones/Faq";
 import Cierre from "@/components/secciones/Cierre";
 import Footer from "@/components/secciones/Footer";
+import DatosEstructurados from "@/components/ui/DatosEstructurados";
 
 export default function Home() {
   return (
     <>
+      <DatosEstructurados />
       <Header />
       <main id="main" tabIndex={-1}>
         <Hero />

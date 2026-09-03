@@ -625,3 +625,53 @@ Seis pedidos de prueba (#1 a #6) y dos filas de configuración: `envios` y
 `admin_intentos` (esta última la crea el freno de contraseña de la fase 6).
 Al limpiar en la fase 7 hay que borrar los seis pedidos y sus `PedidoItem`;
 la fila `admin_intentos` puede quedarse, se limpia sola.
+
+## Fase 7, primer bloque: datos de contacto y SEO (2026-09-03)
+
+Juan Fran cerró varios candados por su cuenta: **dominio comprado**
+(`maisonnux.com`), **sitio de Netlify apagado** (verificado: da 404),
+**contraseña de Neon rotada** (verificado: el sitio de Vercel sigue leyendo la
+base, o sea que actualizó bien las variables), y proyecto en Vercel.
+Cotizaciones de paquetería, tablas nutrimentales y tiempos de entrega siguen
+pendientes: se avanza sin ellos y se cambian cuando lleguen.
+
+**Nota importante:** al rotar la contraseña, este entorno ya NO puede consultar
+la base (la copia local tiene la cadena vieja). Es lo que se buscaba. La
+limpieza de pedidos de prueba la ejecuta Juan Fran en el SQL Editor de Neon con
+el guion que se le entregue.
+
+### Datos de contacto
+
+- `lib/contacto.ts`: WhatsApp `3329159052`, correo `ventas@maisonnux.com`,
+  Instagram `@maison_nux`. Van en el repo a propósito (son públicos, la página
+  los muestra) y las variables de entorno los pueden sobrescribir sin tocar
+  código.
+- **Footer:** línea de contacto de TEXTOS §7 con los tres enlaces, más
+  "Contacto" en la columna Nosotros.
+- **Preguntas frecuentes:** la respuesta de pedidos grandes conserva su texto
+  aprobado palabra por palabra; solo la palabra "WhatsApp" se volvió enlace.
+- `telefonoLegible` se movió de `lib/admin-formato.ts` a `lib/formato.ts` para
+  que el panel y el footer usen la misma lógica de claves de área.
+- De paso: los enlaces del footer medían 20px de alto. Ahora 44px.
+
+### SEO
+
+- `app/sitemap.ts`: solo las tres páginas públicas (inicio, historia, envíos).
+  **No** se listan `/admin`, `/carrito`, `/checkout` ni `/pedido/[id]`.
+- `app/robots.ts`: bloquea los pasos de compra. **A propósito NO menciona
+  `/admin`**: robots.txt es público y ahí se estaría anunciando la dirección
+  del panel. Lo que mantiene al panel fuera de Google es su etiqueta `noindex`.
+- `lib/sitio.ts`: una sola función `sitioUrl()` para la dirección del sitio,
+  siempre sin diagonal final. La usan el layout, el sitemap, el robots, los
+  datos estructurados y el checkout, que antes tenía su propia limpieza.
+- Metadatos ampliados: canonical, Open Graph completo con imagen dimensionada,
+  y Twitter card. Textos verbatim de TEXTOS §8.
+- **Datos estructurados** (`components/ui/DatosEstructurados.tsx`): las 4
+  presentaciones marcadas como `Product` con precio y moneda MXN, más
+  `Organization` y `WebSite`. Verificado: JSON válido, 4 productos con
+  $50/$150/$370/$720 MXN e `InStock`.
+
+Verificado en navegador con `NEXT_PUBLIC_SITE_URL=https://maisonnux.com`:
+robots.txt y sitemap.xml correctos, metadatos con el dominio real, cero
+etiquetas `noindex` en el sitio público, footer sin desbordes y con todos los
+enlaces de 44px, consola limpia en celular y escritorio.

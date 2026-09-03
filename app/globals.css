@@ -1111,3 +1111,51 @@ html.hero-degradado .hero-static { display: block; }
 .admin-forma-envios {
   padding-bottom: 7.5rem;
 }
+
+/* ---------- páginas legales ---------- */
+/* Textos largos: jerarquía clara y renglones cortos. */
+
+.legal h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  margin: 2.5rem 0 0.85rem;
+}
+.legal h2:first-child { margin-top: 0; }
+
+.legal h3 {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1.05rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+.legal p,
+.legal li {
+  line-height: 1.75;
+  max-width: 62ch;
+}
+
+.legal p { margin: 0 0 1rem; }
+
+.legal ul {
+  margin: 0 0 1.25rem;
+  padding-left: 1.15rem;
+  list-style: disc;
+}
+.legal li { margin-bottom: 0.5rem; }
+
+.legal strong { font-weight: 500; }
+
+.legal a {
+  color: var(--accent-deep);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal .dato {
+  margin: 1.25rem 0;
+  padding: 1rem 1.15rem;
+  border-left: 3px solid var(--accent-light);
+  background: var(--panel);
+}
+.legal .dato p:last-child { margin-bottom: 0; }

@@ -675,3 +675,47 @@ Verificado en navegador con `NEXT_PUBLIC_SITE_URL=https://maisonnux.com`:
 robots.txt y sitemap.xml correctos, metadatos con el dominio real, cero
 etiquetas `noindex` en el sitio público, footer sin desbordes y con todos los
 enlaces de 44px, consola limpia en celular y escritorio.
+
+## Fase 7, segundo bloque: páginas legales (2026-09-03)
+
+Datos fiscales que dio Juan Fran, en `lib/negocio.ts` (un solo lugar; si cambia
+el domicilio, las tres páginas se actualizan solas):
+**Diego Hecht Álvarez**, persona física con actividad empresarial,
+Mar Amarillo 1522, Country Club, Guadalajara, Jalisco, CP 44610.
+
+Tres páginas nuevas bajo `/legal/`, enlazadas desde la columna Legal del footer
+(que existía en TEXTOS §7 y estaba pendiente) y en el sitemap:
+
+- **Aviso de privacidad.** Escrito describiendo lo que el sitio HACE de verdad,
+  no una plantilla: los campos exactos que pide el checkout, los cinco
+  servicios que tocan esos datos (Mercado Pago, Resend, Neon, Vercel, la
+  paquetería), la transferencia internacional porque esos servidores están
+  fuera de México, y los derechos ARCO con el plazo de 20 días hábiles.
+  Dice explícitamente que **los datos de tarjeta nunca pasan por el sitio** (se
+  capturan dentro de Mercado Pago) y que **no hay cookies de rastreo ni
+  analítica**: lo único que se guarda en el navegador es el carrito, en
+  localStorage. Ambas cosas son ciertas y verificables en el código.
+- **Términos y condiciones.** Producto, alérgenos (trazas de otros frutos
+  secos), conservación, precios en MXN, pedido mínimo, cuándo queda confirmado
+  un pedido (solo cuando el webhook recibe el pago aprobado, que es exactamente
+  como funciona), envíos, zona extendida, y jurisdicción en Jalisco sin
+  perjuicio de los derechos de la LFPC y la PROFECO.
+- **Política de devoluciones.** Es un alimento sin conservadores, así que no se
+  aceptan devoluciones por gusto; sí reposición o reembolso si llegó dañado,
+  incompleto o equivocado, con 5 días naturales para avisar y foto del empaque.
+  Cancelación sin costo mientras el pedido no haya salido.
+
+**Textos nuevos, no de TEXTOS-PAGINA.md:** no existía copy aprobado para lo
+legal. Se escribieron respetando el tono del proyecto (claro, sin jerga) pero
+sin la voz de Raquel: un aviso de privacidad no se narra en primera persona.
+
+**Dos cosas que Juan Fran debe confirmar** (son compromisos de negocio, no
+código): los plazos de la política de devoluciones (5 días para avisar, 2 días
+hábiles de respuesta) y que la jurisdicción de Jalisco es la correcta. Y una
+advertencia dada de frente: los textos los redactó Claude, no un abogado.
+
+`components/secciones/PaginaLegal.tsx` es el marco común de las tres (ancho de
+lectura de 62ch, jerarquía y fecha de vigencia). Verificado con 28
+comprobaciones en navegador: títulos, domicilio y nombre fiscal presentes, cero
+desbordes laterales, los tres enlaces del footer de 44px, el footer de cuatro
+columnas sin romperse, sitemap completo y consola limpia.

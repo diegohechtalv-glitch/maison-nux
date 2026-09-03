@@ -3,12 +3,11 @@ import Link from "next/link";
 import logo from "@/public/img/logo-maison-nux.png";
 import { CONTACTO } from "@/lib/contacto";
 
-// Columnas y línea de contacto según TEXTOS §7. La columna Legal entra cuando
-// existan las páginas legales.
+// Columnas y línea de contacto según TEXTOS §7.
 export default function Footer() {
   return (
     <footer className="border-t border-(--hairline) bg-panel">
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-4">
         <div>
           <Image src={logo} alt="Maison Nux" className="h-12 w-auto" sizes="150px" />
           <p className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-text-secondary">
@@ -56,6 +55,37 @@ export default function Footer() {
               >
                 Contacto
               </a>
+            </li>
+          </ul>
+        </nav>
+        <nav aria-label="Legal">
+          <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-accent-deep">
+            Legal
+          </p>
+          <ul className="mt-2 text-sm">
+            <li>
+              <Link
+                className="inline-flex min-h-11 items-center hover:text-accent-deep"
+                href="/legal/aviso-de-privacidad"
+              >
+                Aviso de privacidad
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="inline-flex min-h-11 items-center hover:text-accent-deep"
+                href="/legal/terminos"
+              >
+                Términos y condiciones
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="inline-flex min-h-11 items-center hover:text-accent-deep"
+                href="/legal/devoluciones"
+              >
+                Política de devoluciones
+              </Link>
             </li>
           </ul>
         </nav>
